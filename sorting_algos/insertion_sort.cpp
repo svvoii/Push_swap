@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   selection_sort.cpp                                 :+:      :+:    :+:   */
+/*   insertion_sort.cpp                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sbocanci <sbocanci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/16 16:41:53 by sbocanci          #+#    #+#             */
-/*   Updated: 2023/01/24 15:13:35 by sbocanci         ###   ########.fr       */
+/*   Created: 2023/01/24 15:36:38 by sbocanci          #+#    #+#             */
+/*   Updated: 2023/01/24 15:53:52 by sbocanci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,50 +14,38 @@
 
 using namespace std;
 
-// SELECTION SORT
-
-void	swap(int a[], int x, int y) {
-	int	tmp = a[x];
-	a[x] = a[y];
-	a[y] = tmp;
-}
-
-int	locate_smallest(int	a[], int i, int end) {
+void	insert_i(int a[], int i) {
+	int	key = a[i];
 	int	j = i;
 
-	while (++i <= end) {
-		if (a[i] < a[j])
-			j = i;
+	while (--j >= 0 && a[j] > key) {
+		a[j + 1] = a[j];
 	}
-	return (j);
+	a[j + 1] = key;
 }
 
-void	selection_sort(int a[], int n) {
+void	insertion_sort(int a[], int size) {
 	int	i = 0;
-	int	j = 0;
 
-	while (i < n - 1) {
-		j = locate_smallest(a, i, n - 1);
-		swap(a, i, j);
-		i++;
+	while (++i < size) {
+		insert_i(a, i);
 	}
 }
 
-void	display(int a[], int n) {
-	int	i = -1;
+void	display(int a[], int size) {
+	int i = -1;
 
-	while (++i < n)
+	while (++i < size)
 		cout << a[i] << ", ";
 	cout << endl;
 }
 
-int main()
-{
-	int	arr[] = {102, 42, 12, 193, 11, 190, 39, 192, 239};
-	int size = sizeof(arr)/sizeof(int);
+int	main() {
+	int	arr[] = {102, 435, 56, 98, 754, 42, 10, 76, 96, 90, 53, 42, 11};
+	int	size = sizeof(arr) / sizeof(arr[0]);
 
 	display(arr, size);
-	selection_sort(arr, size);
+	insertion_sort(arr, size);
 	display(arr, size);
 
 	return (0);

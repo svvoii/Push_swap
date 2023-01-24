@@ -6,17 +6,17 @@
 /*   By: sbocanci <sbocanci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 16:09:17 by sbocanci          #+#    #+#             */
-/*   Updated: 2023/01/16 16:37:12 by sbocanci         ###   ########.fr       */
+/*   Updated: 2023/01/24 14:26:53 by sbocanci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <iostream>
 #include <cstdlib>
 
+#define MAX 100
 using namespace std;
 
-#define MAX 100
-
+// SIMPLE SORTING ALGORITHM
 int	main()
 {
 	int	n;

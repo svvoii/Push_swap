@@ -6,7 +6,7 @@
 /*   By: sbocanci <sbocanci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 16:00:12 by sbocanci          #+#    #+#             */
-/*   Updated: 2023/01/24 16:37:29 by sbocanci         ###   ########.fr       */
+/*   Updated: 2023/01/27 14:28:15 by sbocanci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,8 @@ void	combine(int a[], int start, int mid, int end) {
 void	merge_sort(int a[], int start, int end) {
 	if (start >= end)
 		return ;
-	//int	mid = (end - start) / 2;
-	int mid = (start + end) / 2;
+	int	mid = start + (end - start) / 2;
+	//int mid = (start + end) / 2;
 	merge_sort(a, start, mid);
 	merge_sort(a, mid + 1, end);
 	combine(a, start, mid, end);

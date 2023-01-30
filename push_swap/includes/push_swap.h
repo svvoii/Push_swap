@@ -6,7 +6,7 @@
 /*   By: sbocanci <sbocanci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 14:51:54 by sbocanci          #+#    #+#             */
-/*   Updated: 2023/01/28 15:39:16 by sbocanci         ###   ########.fr       */
+/*   Updated: 2023/01/30 17:10:19 by sbocanci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,5 +19,7 @@
 # include <time.h>
 
 void	get_rand_nums(int *a, int len, int min, int max);
+void	merge_sort(int *arr, int start, int end);
+void	copy(int *from, int *to, int len);
 
 #endif

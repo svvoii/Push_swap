@@ -6,62 +6,47 @@
 /*   By: sbocanci <sbocanci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 15:47:53 by sbocanci          #+#    #+#             */
-/*   Updated: 2023/01/28 16:30:26 by sbocanci         ###   ########.fr       */
+/*   Updated: 2023/01/30 17:10:04 by sbocanci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/push_swap.h"
 
-void	fill_rest(int arr[], int start, int mid, int end)
-{
-	int	i;
-	int	j;
-
-	i = 0;
-	while (i <= (mid - start))
-	{
-		sorted[i] = arr[start + i];
-		i++;
-	}
-	j = 0;
-	while (j < (end - mid))
-	{
-		sorted[mid + j] = arr[mid + 1 + j];
-		j++;
-	}
-}
-
-void merge(int arr[], int start, int mid, int end)
+static void merge(int arr[], int start, int mid, int end)
 {
 	int	i;
 	int	j;
 	int	k;
-	int	sorted[end - start];
-	int	left[mid - start + 1];
-	int	right[end - mid];
+	int	buf[end + 1];
 
-	i = 0;
-	j = 0;
+	i = start - 1;
+	while (++i <= end)
+		buf[i] = arr[i];
+	i = start;
+	j = mid + 1;
 	k = start;
-	while (i < (mid - start + 1) && j < (end - mid))
+	while (i <= mid && j <= end)
 	{
-		if (left[i] <= right[j])
-			arr[k] = left[i++];
+		if (buf[i] <= buf[j])
+			arr[k++] = buf[i++];
 		else
-			arr[k] = right[j++];
-		k++;
+			arr[k++] = buf[j++];
 	}
-	fill_rest(arr, &i, &j, &k);	
+    while (i <= mid) {
+        arr[k++] = buf[i++];
+    }
+    while (j <= end) {
+        arr[k++] = buf[j++];
+    }
 }
 
 void	merge_sort(int *arr, int start, int end)
 {
-	if (start < end)
-	{
-		int	mid = start + (end - start) / 2;
+	if (start >= end)
+		return ;
+	int	mid = start + (end - start) / 2;
 
-		merge_sort(arr, start, mid);
-		merge_sort(arr, mid + 1, end);
-		merge(arr, start, mid, end);
-	}
+	merge_sort(arr, start, mid);
+	merge_sort(arr, mid + 1, end);
+	merge(arr, start, mid, end);
 }

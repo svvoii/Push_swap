@@ -6,7 +6,7 @@
 /*   By: sbocanci <sbocanci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/01 12:23:11 by sbocanci          #+#    #+#             */
-/*   Updated: 2023/02/01 17:16:57 by sbocanci         ###   ########.fr       */
+/*   Updated: 2023/02/02 11:11:58 by sbocanci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,16 @@ t_stack	*create_stack(int capacity)
 	stack->capacity = capacity;
 	stack->size = 0;
 	return (stack);
+}
+
+// Filling in the stack from int arr. First element on top/last in arr
+void	fill_in_stack(t_stack *a, int *arr)
+{
+	int	i;
+
+	i = a->capacity;
+	while (--i >= 0)
+		push(a, arr[i]);
 }
 
 // Freeing the memory

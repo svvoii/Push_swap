@@ -6,7 +6,7 @@
 /*   By: sbocanci <sbocanci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 14:51:54 by sbocanci          #+#    #+#             */
-/*   Updated: 2023/02/01 17:25:13 by sbocanci         ###   ########.fr       */
+/*   Updated: 2023/02/02 14:52:51 by sbocanci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ void	get_rand_nums(int *a, int len, int min, int max);
 void	merge_sort(int *arr, int start, int end);
 void	copy(int *from, int *to, int len);
 t_stack	*create_stack(int capacity);
+void	fill_in_stack(t_stack *a, int *arr);
 void	destroy_stack(t_stack *stack);
 int		is_full(t_stack *stack);
 int		is_empty(t_stack *stack);
@@ -37,5 +38,6 @@ int		pop(t_stack *stack, int *item);
 int		peek(t_stack *stack, int *item);
 void	rotate(int *arr, int len);
 void	reverse_rotate(int *arr, int len);
+void	radix_sort(t_stack *a);
 
 #endif

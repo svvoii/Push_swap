@@ -6,7 +6,7 @@
 /*   By: sbocanci <sbocanci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 14:48:21 by sbocanci          #+#    #+#             */
-/*   Updated: 2023/02/02 14:51:10 by sbocanci         ###   ########.fr       */
+/*   Updated: 2023/02/03 19:28:04 by sbocanci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,44 +32,63 @@ void	indexing_unsorted_nums(int *a, int *sorted, int len)
 	}
 }
 
+void	print_array(int *arr, int len)
+{
+	int i = -1;
+
+	while (++i < len)
+		printf("%d, ", arr[i]);
+	printf("\n");
+}
+
+void	print_index(int *arr, int len)
+{
+	int i = -1;
+
+	while (++i < len)
+		printf("[%d]", i);
+	printf("\n");
+}
+
 int	main()
 {
-	int	len = 10;
-	int	min = -99;
-	int	max = 99;
-	int	a[len];
+	int	len = 100;
+	int	min = -999;
+	int	max = 999;
+	int	arr[len];
 	int	sorted[len];
-	int	index[len];
-	t_stack	*stack_a;
+	t_stack	*a;
+	t_stack	*b;
 
-	get_rand_nums(a, len, min, max);
+	get_rand_nums(arr, len, min, max);
 	for (int i = len - 1; i >= 0; i--)
 	{
-		sorted[i] = a[i];
-		printf("%d\t", a[i]);
+		sorted[i] = arr[i];
+		//printf("%d\t", arr[i]);
 	}
-	printf("\n");
-
+	//printf("\n");
 	merge_sort(sorted, 0, len - 1);
-	indexing_unsorted_nums(a, sorted, len);
+	indexing_unsorted_nums(arr, sorted, len);
 
-	stack_a = create_stack(len);
-	fill_in_stack(stack_a, a);
+	a = create_stack(len);
+	b = create_stack(len);
+	fill_in_stack(a, arr);
 
-	for (int i = 0; i < stack_a->size; i++)
-		printf("%d\t", stack_a->collection[i]);
-	printf("\ncapacity:'%d'\tsize:'%d'", stack_a->capacity, stack_a->size);
-	printf("\n");
-	if (is_full(stack_a))
-		printf("stack a is full.\n");
+	radix_sort(a, b);
+/*
+	printf("a:\t");
+	print_array(a->collection, a->size);
+	printf("\t");
+	print_index(a->collection, a->size);
+	//printf("a > capacity:'%d'\tsize:'%d'\n", a->capacity, a->size);
 
-	radix_sort(stack_a);
-
-	for (int i = 0; i < stack_a->size; i++)
-		printf("%d\t", stack_a->collection[i]);
-	printf("\ncapacity:'%d'\tsize:'%d'\n", stack_a->capacity, stack_a->size);
-
-	destroy_stack(stack_a);
+	printf("a:\t");
+	print_array(a->collection, a->size);
+	printf("\t");
+	print_index(a->collection, a->size);
+	//printf("a > capacity:'%d'\tsize:'%d'\n", a->capacity, a->size);
+*/
+	destroy_stack(a);
 
 	return (0);
 }

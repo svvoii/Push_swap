@@ -6,7 +6,7 @@
 /*   By: sbocanci <sbocanci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/01 15:41:24 by sbocanci          #+#    #+#             */
-/*   Updated: 2023/02/01 17:17:15 by sbocanci         ###   ########.fr       */
+/*   Updated: 2023/02/03 19:17:26 by sbocanci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ int	push(t_stack *stack, int item)
 	stack->collection[stack->size] = item;
 	stack->size++;
 	return (1);
+	printf("pb\n");
 }
 
 // Decreases the size ofthe array by 1
@@ -55,6 +56,7 @@ void	rotate(int *arr, int len)
 		i--;
 	}
 	arr[0] = tmp;
+	printf("ra\n");
 }
 
 // The bottom stack value moved to the top (last array item appears at 0 index)
@@ -71,4 +73,5 @@ void	reverse_rotate(int *arr, int len)
 		i++;
 	}
 	arr[len - 1] = tmp;
+	printf("rra\n");
 }

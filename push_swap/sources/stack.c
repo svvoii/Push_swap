@@ -6,7 +6,7 @@
 /*   By: sbocanci <sbocanci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/01 12:23:11 by sbocanci          #+#    #+#             */
-/*   Updated: 2023/02/02 11:11:58 by sbocanci         ###   ########.fr       */
+/*   Updated: 2023/02/03 12:04:20 by sbocanci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,5 +59,5 @@ int	is_full(t_stack *stack)
 // Returns 1 (true) if the stack is empty.
 int	is_empty(t_stack *stack)
 {
-	return (stack-> size == 0);
+	return (stack->size == 0);
 }

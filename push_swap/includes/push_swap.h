@@ -6,7 +6,7 @@
 /*   By: sbocanci <sbocanci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 14:51:54 by sbocanci          #+#    #+#             */
-/*   Updated: 2023/02/02 14:52:51 by sbocanci         ###   ########.fr       */
+/*   Updated: 2023/02/03 13:16:51 by sbocanci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@ typedef struct s_stack
 	int	size;
 }	t_stack;
 
+void	print_array(int *arr, int len);
+
 void	get_rand_nums(int *a, int len, int min, int max);
 void	merge_sort(int *arr, int start, int end);
 void	copy(int *from, int *to, int len);
@@ -38,6 +40,6 @@ int		pop(t_stack *stack, int *item);
 int		peek(t_stack *stack, int *item);
 void	rotate(int *arr, int len);
 void	reverse_rotate(int *arr, int len);
-void	radix_sort(t_stack *a);
+void	radix_sort(t_stack *a, t_stack *b);
 
 #endif

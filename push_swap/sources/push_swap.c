@@ -6,7 +6,7 @@
 /*   By: sbocanci <sbocanci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 14:48:21 by sbocanci          #+#    #+#             */
-/*   Updated: 2023/02/03 19:28:04 by sbocanci         ###   ########.fr       */
+/*   Updated: 2023/02/04 17:21:19 by sbocanci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,9 +52,9 @@ void	print_index(int *arr, int len)
 
 int	main()
 {
-	int	len = 100;
-	int	min = -999;
-	int	max = 999;
+	int	len = 10;
+	int	min = -99;
+	int	max = 99;
 	int	arr[len];
 	int	sorted[len];
 	t_stack	*a;
@@ -70,25 +70,27 @@ int	main()
 	merge_sort(sorted, 0, len - 1);
 	indexing_unsorted_nums(arr, sorted, len);
 
-	a = create_stack(len);
-	b = create_stack(len);
+	a = create_stack('a', len);
+	b = create_stack('b', len);
 	fill_in_stack(a, arr);
 
-	radix_sort(a, b);
-/*
+	//radix_sort(a, b);
 	printf("a:\t");
 	print_array(a->collection, a->size);
 	printf("\t");
 	print_index(a->collection, a->size);
 	//printf("a > capacity:'%d'\tsize:'%d'\n", a->capacity, a->size);
+	sort_stack(a, b);
 
 	printf("a:\t");
 	print_array(a->collection, a->size);
 	printf("\t");
 	print_index(a->collection, a->size);
 	//printf("a > capacity:'%d'\tsize:'%d'\n", a->capacity, a->size);
+/*
 */
 	destroy_stack(a);
+	destroy_stack(b);
 
 	return (0);
 }

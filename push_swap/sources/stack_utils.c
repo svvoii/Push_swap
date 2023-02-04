@@ -6,7 +6,7 @@
 /*   By: sbocanci <sbocanci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/01 15:41:24 by sbocanci          #+#    #+#             */
-/*   Updated: 2023/02/03 19:17:26 by sbocanci         ###   ########.fr       */
+/*   Updated: 2023/02/04 17:11:34 by sbocanci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	push(t_stack *stack, int item)
 	stack->collection[stack->size] = item;
 	stack->size++;
 	return (1);
-	printf("pb\n");
+	printf("p%c\n", stack->s);
 }
 
 // Decreases the size ofthe array by 1
@@ -34,6 +34,7 @@ int	pop(t_stack *stack, int *item)
 }
 
 // Retrieves the top item from the stack (the last item of the array, size - 1)
+/*
 int	peek(t_stack *stack, int *item)
 {
 	if (is_empty(stack))
@@ -41,37 +42,48 @@ int	peek(t_stack *stack, int *item)
 	*item = stack->collection[stack->size - 1];
 	return (1);
 }
+*/
+
+void	swap(int *a, int *b, char c)
+{
+	int	tmp;
+
+	tmp = *a;
+	*a = *b;
+	*b = tmp;
+	printf("s%c\n", c);
+}
 
 // Moves the top item to bottom of stack (the last array item put at index 0)
-void	rotate(int *arr, int len)
+void	rotate(t_stack *stack)
 {
 	int	tmp;
 	int	i;
 
-	tmp = arr[len - 1];
-	i = len - 2;
+	tmp = stack->collection[stack->size - 1];
+	i = stack->size - 2;
 	while (i >= 0)
 	{
-		arr[i + 1] = arr[i];
+		stack->collection[i + 1] = stack->collection[i];
 		i--;
 	}
-	arr[0] = tmp;
-	printf("ra\n");
+	stack->collection[0] = tmp;
+	printf("r%c\n", stack->s);
 }
 
 // The bottom stack value moved to the top (last array item appears at 0 index)
-void	reverse_rotate(int *arr, int len)
+void	reverse_rotate(t_stack *stack)
 {
-	int	tmp;
 	int	i;
+	int	tmp;
 
-	tmp = arr[0];
+	tmp = stack->collection[0];
 	i = 0;
-	while (i < len - 1)
+	while (i < stack->size - 1)
 	{
-		arr[i] = arr[i + 1];
+		stack->collection[i] = stack->collection[i + 1];
 		i++;
 	}
-	arr[len - 1] = tmp;
-	printf("rra\n");
+	stack->collection[stack->size - 1] = tmp;
+	printf("rr%c\n", stack->s);
 }

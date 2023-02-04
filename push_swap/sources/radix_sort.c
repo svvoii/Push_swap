@@ -6,26 +6,11 @@
 /*   By: sbocanci <sbocanci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 17:40:21 by sbocanci          #+#    #+#             */
-/*   Updated: 2023/02/03 19:22:21 by sbocanci         ###   ########.fr       */
+/*   Updated: 2023/02/04 17:06:07 by sbocanci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/push_swap.h"
-
-int	sorted(t_stack *st)
-{
-	int	i;
-
-	if (st->size == 0)
-		return (0);
-	i = st->size;
-	while (--i > 0)
-	{
-		if (st->collection[i] > st->collection[i - 1])
-			return (0);
-	}
-	return (1);
-}
 
 int	digit(int num, int turn)
 {
@@ -57,9 +42,9 @@ void	sorting(t_stack *to_sort, t_stack *empty, int *turn)
 				while (to_sort->collection[to_sort->size - 1] != to_sort->size - 1)
 				{
 					if (r < to_sort->size / 2)
-						reverse_rotate(to_sort->collection, to_sort->size);
+						reverse_rotate(to_sort);
 					else
-						rotate(to_sort->collection, to_sort->size);
+						rotate(to_sort);
 				}
 				//printf("num:'%d' > digit:'%d'\t", to_sort->collection[j], digit(to_sort->collection[j], *turn));
 				pop(to_sort, &peek_value);

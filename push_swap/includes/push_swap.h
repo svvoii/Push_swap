@@ -6,7 +6,7 @@
 /*   By: sbocanci <sbocanci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 14:51:54 by sbocanci          #+#    #+#             */
-/*   Updated: 2023/02/04 17:16:52 by sbocanci         ###   ########.fr       */
+/*   Updated: 2023/02/06 18:54:13 by sbocanci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ void	rotate(t_stack *stack);
 void	reverse_rotate(t_stack *stack);
 void	radix_sort(t_stack *a, t_stack *b);
 void	sort_stack(t_stack *a, t_stack *b);
-void	find_lowest_and_swap_or_rr(t_stack *st);
 void	sort_three_nums(t_stack *st);
 
 #endif

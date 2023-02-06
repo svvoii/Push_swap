@@ -6,7 +6,7 @@
 /*   By: sbocanci <sbocanci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 14:48:21 by sbocanci          #+#    #+#             */
-/*   Updated: 2023/02/06 13:41:40 by sbocanci         ###   ########.fr       */
+/*   Updated: 2023/02/06 19:28:26 by sbocanci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void	print_index(int *arr, int len)
 
 int	main()
 {
-	int	len = 10;
+	int	len = 100;
 	int	min = -99;
 	int	max = 99;
 	int	arr[len];
@@ -70,9 +70,11 @@ int	main()
 	merge_sort(sorted, 0, len - 1);
 	indexing_unsorted_nums(arr, sorted, len);
 
-	a = create_stack('a', len);
-	b = create_stack('b', len);
+	a = create_stack(0, len);
+	b = create_stack(0, len);
 	fill_in_stack(a, arr);
+	a->s = 'a';
+	b->s = 'b';
 
 	//radix_sort(a, b);
 	printf("a:\t");
@@ -80,6 +82,7 @@ int	main()
 	printf("\t");
 	print_index(a->collection, a->size);
 	//printf("a > capacity:'%d'\tsize:'%d'\n", a->capacity, a->size);
+
 	sort_stack(a, b);
 
 	printf("a:\t");

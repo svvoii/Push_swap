@@ -6,12 +6,13 @@
 /*   By: sbocanci <sbocanci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/04 14:59:30 by sbocanci          #+#    #+#             */
-/*   Updated: 2023/02/06 18:24:19 by sbocanci         ###   ########.fr       */
+/*   Updated: 2023/02/06 18:59:10 by sbocanci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/push_swap.h"
 
+// Returns 1 if stack is sorted
 int	sorted(t_stack *st)
 {
 	int	i;
@@ -27,6 +28,7 @@ int	sorted(t_stack *st)
 	return (1);
 }
 
+// Conditions to sort a when there is only 3 values in it
 void	sort_three_nums(t_stack *st)
 {
 	int	*a;
@@ -53,24 +55,20 @@ void	sort_three_nums(t_stack *st)
 	}
 }
 
-void	find_lowest_and_swap_or_rr(t_stack *st)
-{
-	if (st->collection[st->size - 2] < st->collection[st->size - 1] && st->collection[st->size - 2] < st->collection[0])
-		swap(&st->collection[st->size - 1], &st->collection[st->size - 2], st->s);
-	else if (st->collection[0] < st->collection[st->size - 1] && st->collection[0] < st->collection[st->size - 2])
-		reverse_rotate(st);
-}
-
-void	rotate_to_set_in_order(t_stack *st)
+// Rotates b to put nums in descending order based on situation
+void	rotate_to_set_in_order(t_stack *st, int n)
 {
 	int	i;
 
-	i = 0;
-	while (++i < st->size)
-		if (st->collection[i - 1] > st->collection[i])
-			break ;
-	if (i == st->size)
-		return ;
+	i = n;
+	if (i == 0)
+	{
+		while (++i < st->size)
+			if (st->collection[i - 1] > st->collection[i])
+				break ;
+		if (i == st->size)
+			return ;
+	}
 	if (i <= st->size / 2)
 		while (--i >= 0)
 			reverse_rotate(st);
@@ -79,16 +77,15 @@ void	rotate_to_set_in_order(t_stack *st)
 			rotate(st);
 }
 
-void	rotate_b(t_stack *b, int value)
+// Aux f() which identifies the index in b where to insert
+void	search_index_to_insert(t_stack *b, int value)
 {
 	int	i;
 
 	i = 0;
 	if (b->size < 2)
 		return ;
-	rotate_to_set_in_order(b);
-	//printf("\tval:'%d' > ", value);
-	//print_array(b->collection, b->size);
+	rotate_to_set_in_order(b, i);
 	if (value > b->collection[0] && value < b->collection[b->size - 1])
 	{
 		i = 0;
@@ -98,15 +95,18 @@ void	rotate_b(t_stack *b, int value)
 	}
 	if (!i)
 		return ;
-	//printf("\ti:'%d' size:'%d'\n", i, b->size);
-	if (i <= b->size / 2)
-		while (--i >= 0)
-			reverse_rotate(b);
-	else
-		while (b->size - ++i >= 0)
-			rotate(b);
+	rotate_to_set_in_order(b, i);
 }
 
+void	find_lowest_and_swap_or_rr(t_stack *a)
+{
+	if (a->collection[a->size - 2] < a->collection[a->size - 1] && a->collection[a->size - 2] < a->collection[0])
+		swap(&a->collection[a->size - 1], &a->collection[a->size - 2], a->s);
+	else if (a->collection[0] < a->collection[a->size - 1] && a->collection[0] < a->collection[a->size - 2])
+		reverse_rotate(a);
+}
+
+// Main sorting f() which calls different actions while a is not sorted
 void	sort_stack(t_stack *a, t_stack *b)
 {
 	int	value;
@@ -119,11 +119,11 @@ void	sort_stack(t_stack *a, t_stack *b)
 		{
 			find_lowest_and_swap_or_rr(a);
 			pop(a, &value);
-			rotate_b(b, value);
+			search_index_to_insert(b, value);
 			push(b, value);
 		}
 	}
-	rotate_to_set_in_order(b);
+	rotate_to_set_in_order(b, 0);
 	while (!is_empty(b))
 	{
 		pop(b, &value);

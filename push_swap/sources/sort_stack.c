@@ -6,7 +6,7 @@
 /*   By: sbocanci <sbocanci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/04 14:59:30 by sbocanci          #+#    #+#             */
-/*   Updated: 2023/02/04 17:23:22 by sbocanci         ###   ########.fr       */
+/*   Updated: 2023/02/06 18:24:19 by sbocanci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,52 @@ void	find_lowest_and_swap_or_rr(t_stack *st)
 		reverse_rotate(st);
 }
 
+void	rotate_to_set_in_order(t_stack *st)
+{
+	int	i;
+
+	i = 0;
+	while (++i < st->size)
+		if (st->collection[i - 1] > st->collection[i])
+			break ;
+	if (i == st->size)
+		return ;
+	if (i <= st->size / 2)
+		while (--i >= 0)
+			reverse_rotate(st);
+	else
+		while (st->size - ++i >= 0)
+			rotate(st);
+}
+
+void	rotate_b(t_stack *b, int value)
+{
+	int	i;
+
+	i = 0;
+	if (b->size < 2)
+		return ;
+	rotate_to_set_in_order(b);
+	//printf("\tval:'%d' > ", value);
+	//print_array(b->collection, b->size);
+	if (value > b->collection[0] && value < b->collection[b->size - 1])
+	{
+		i = 0;
+		while (++i < b->size)
+			if (value > b->collection[i - 1] && value < b->collection[i])
+				break ;
+	}
+	if (!i)
+		return ;
+	//printf("\ti:'%d' size:'%d'\n", i, b->size);
+	if (i <= b->size / 2)
+		while (--i >= 0)
+			reverse_rotate(b);
+	else
+		while (b->size - ++i >= 0)
+			rotate(b);
+}
+
 void	sort_stack(t_stack *a, t_stack *b)
 {
 	int	value;
@@ -73,16 +119,15 @@ void	sort_stack(t_stack *a, t_stack *b)
 		{
 			find_lowest_and_swap_or_rr(a);
 			pop(a, &value);
-			// rotate b for proper spot to insert value
+			rotate_b(b, value);
 			push(b, value);
 		}
 	}
-	printf("b:");
-	print_array(b->collection, b->size);
+	rotate_to_set_in_order(b);
 	while (!is_empty(b))
 	{
-		find_lowest_and_swap_or_rr(b);
 		pop(b, &value);
 		push(a, value);
+		find_lowest_and_swap_or_rr(a);
 	}
 }

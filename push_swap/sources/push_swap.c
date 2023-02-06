@@ -6,7 +6,7 @@
 /*   By: sbocanci <sbocanci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 14:48:21 by sbocanci          #+#    #+#             */
-/*   Updated: 2023/02/04 17:21:19 by sbocanci         ###   ########.fr       */
+/*   Updated: 2023/02/06 13:41:40 by sbocanci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ int	main()
 /*
 */
 	destroy_stack(a);
-	destroy_stack(b);
+	//destroy_stack(b);
 
 	return (0);
 }

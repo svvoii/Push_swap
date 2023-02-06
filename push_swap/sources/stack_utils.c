@@ -6,7 +6,7 @@
 /*   By: sbocanci <sbocanci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/01 15:41:24 by sbocanci          #+#    #+#             */
-/*   Updated: 2023/02/04 17:11:34 by sbocanci         ###   ########.fr       */
+/*   Updated: 2023/02/06 13:45:54 by sbocanci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@ int	push(t_stack *stack, int item)
 		return (0);
 	stack->collection[stack->size] = item;
 	stack->size++;
-	return (1);
 	printf("p%c\n", stack->s);
+	return (1);
 }
 
 // Decreases the size ofthe array by 1

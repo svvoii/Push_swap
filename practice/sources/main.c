@@ -1,7 +1,7 @@
-#include "p_swap.h"
+#include "../includes/p_swap.h"
 
 void	nor(t_stack *st);
-char	**parc(char **av, char **tmp, int ac);
+char	**parc(char **av, char **tmp, int *ac);
 void	atoi_str_to_stack(t_stack *st, char **av, int ac);
 void	quit(t_stack *st, int ac, char **av);
 
@@ -10,15 +10,21 @@ int	main(int ac, char *av[])
 	t_stack	st;
 	char	**tmp;
 
-	tmp = NULL;
-	qu(ac);
-	tmp = parc(av, tmp, &ac);
-	if (check_arg(tmp) == 0)
+	if (ac < 2)
+		exit (0);
+	printf("ac:'%d'\n", ac);
+	//tmp = NULL;
+	//tmp = parc(av, tmp, &ac);
+	if (check_arg(ac, av) == 0)
 		quit(&st, 1, tmp);
-	atoi_str_to_stack(&st, tmp, ac++);
-	if (check_repeat(st.tab_a, st.top_a) == 0)
+	printf("check ok!\n");
+	atoi_str_to_stack(&st, av, ac - 1);
+	printf("atio to stack ok!\n");
+	if (check_repeat(st.a, st.top_a) == 0)
 		quit(&st, 1, 0);
-	if (check_if_sorted(st.tab_a, st.top_a) == 0)
+	printf("check rep OK!\n");
+	// sorted needs to be fixed here. Program quits with err 0
+	if (sorted(st.a, st.top_a) == 0)
 		quit(&st, 0, 0);
 	if (ac >= 3 && ac <= 6)
 	{
@@ -38,23 +44,27 @@ void	nor(t_stack *st)
 	push_sorted_to_b(st);
 	push_sorted_to_a(st);
 }
-
-char	**parc(char **av, char **tmp, int ac)
+/*
+char	**parc(char **av, char **tmp, int *ac)
 {
 	int		i;
-	char	*tab;
+	char	*str_nb;
 	
-	tab = NULL;
+	printf("parc\n");
+	str_nb = NULL;
 	if (check_space(av) == 0)
 		quit(0, 5, 0);
-	while (av[i])
-	{
-		tab = ft_strjoin(tab, av[i++]);
-		tab = ft_strjoin(tab, " ");
-	}
-	tmp = ft_split(tab, ' ');
 	i = 0;
-	free(tab);
+	while (av[++i])
+	{
+		printf("\tav[%d]: '%s'\tstr: '%s'\n", i, av[i], str_nb);
+		str_nb = ft_strjoin(str_nb, av[i]);
+		str_nb = ft_strjoin(str_nb, " ");
+	}
+	printf("str: '%s'\n", str_nb);
+	tmp = ft_split(str_nb, ' ');
+	i = 0;
+	free(str_nb);
 	if (!tmp)
 		exit (0);
 	while (tmp[i])
@@ -62,13 +72,14 @@ char	**parc(char **av, char **tmp, int ac)
 	*ac = i;
 	return (tmp);
 }
-
+*/
 void	atoi_str_to_stack(t_stack *st, char **av, int ac)
 {
 	long long	num;
 	int			i;
 
-	i = -1;
+	printf("atio to stack. ac'%d' .. av[1]:'%s'\n", ac, av[1]);
+	i = 0;
 	st->top_b = -1;
 	st->a = (int *)malloc(sizeof(int) * ac);
 	st->b = (int *)malloc(sizeof(int) * ac);
@@ -76,19 +87,23 @@ void	atoi_str_to_stack(t_stack *st, char **av, int ac)
 		quit(st, 1, av);
 	while (av[++i])
 	{
+		printf("\tav[%d]: '%s'\t", i, av[i]);
 		num = ft_atoi(av[i], st, av);
 		if (num > 2147483647 || num < -2147483648)
 			quit(st, 1, av);
-		st->a[ac - i - 1] = (int)num;
+		st->a[ac - i] = (int)num;
+		printf("num:'%lld' > st->a[%d]:'%d'\n", num, ac - i, st->a[ac - i]);
 	}
-	st->top_a = i - 1;
+	st->top_a = ac;
+	printf("st->top_a:'%d' i:'%d'\n", st->top_a, i);
 }
 
-void	quit(t_stack *st, int ac, char **av)
+void	quit(t_stack *st, int err, char **av)
 {
-	if (ac == 1 || ac == 5)
+	printf("quit err:'%d'\n", err);
+	if (err == 1 || err == 5)
 		write(1, "Error\n", 6);
-	if (ac != 2 && ac != 5)
+	if (err != 2 && err != 5)
 	{
 		free(st->a);
 		free(st->b);

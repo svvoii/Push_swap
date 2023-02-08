@@ -1,4 +1,4 @@
-#include "p_swap.h"
+#include "../includes/p_swap.h"
 
 void	pa(int *a, int *top_a, int *b, int *top_b);
 void	pb(int *a, int *top_a, int *b, int *top_b);
@@ -10,6 +10,7 @@ void	rb(int *b, int top, char c);
 void	rr(int *a, int top_a, int *b, int top_b);
 void	rra(int *a, int top, char c);
 void	rrb(int *b, int top, char c);
+void	rrr(int *a, int top_a, int *b, int top_b);
 
 void	pa(int *a, int *top_a, int *b, int *top_b)
 {
@@ -100,7 +101,7 @@ void	rb(int *b, int top, char c)
 	int	i;
 	int	*tmp;
 
-	top = (int *)malloc(sizeof(int) * (top + 1));
+	tmp = (int *)malloc(sizeof(int) * (top + 1));
 	if (!tmp)
 	{
 		free(b);
@@ -109,9 +110,7 @@ void	rb(int *b, int top, char c)
 	tmp[0] = b[top];
 	i = top + 1;
 	while (--i > 0)
-	(
 		tmp[i] = b[i - 1];
-	)
 	i = -1;
 	while (++i <= top)
 	{
@@ -181,4 +180,11 @@ void	rrb(int *b, int top, char c)
 	free(tmp);
 	if (c != '2')
 		write(1, "rrb\n", 4);
+}
+
+void	rrr(int *a, int top_a, int *b, int top_b)
+{
+	rra(a, top_a, '2');
+	rrb(b, top_b, '2');
+	write(1, "rrr\n", 4);
 }

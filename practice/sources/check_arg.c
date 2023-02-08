@@ -1,24 +1,28 @@
-#include "p_swap.h"
+#include "../includes/p_swap.h"
 
-int	check_arg(char **av)
+int	check_space(char **av);
+int	check_repeat(int *st, int top);
+int	check_arg(int ac, char **av);
+
+int	check_arg(int ac, char **av)
 {
 	int	i;
 	int	j;
 
-	i = 0;
 	if (!av || !*av)
 		return (0);
-	while (av[++i])
+	i = 0;
+	while (++i < ac)
 	{
-		j = 0;
-		while (av[i][j])
+		j = -1;
+		while (av[i][++j])
 		{
-			if (j == 0 && (av[i][j] == '-' || v[i][j] == '+'))
+			if (j == 0 && (av[i][j] == '-' || av[i][j] == '+'))
 				j++;
 			if ((av[i][j] < '0' || av[i][j] > '9'))
 				return (0);
-			j++;
 		}
+		printf("\tav[%d]:'%s'\n", i, av[i]);
 	}
 	return (1);
 }
@@ -28,6 +32,7 @@ int	check_repeat(int *st, int top)
 	int	i;
 	int	j;
 
+	printf("check repeat..\t");
 	i = -1;
 	while (++i < top)
 	{

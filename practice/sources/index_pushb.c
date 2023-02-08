@@ -1,4 +1,9 @@
-#include "p_swap.h"
+#include "../includes/p_swap.h"
+
+void	push_sorted_to_a(t_stack *st);
+void	mini_search(t_stack *st, int *i, int j);
+void	push_sorted_to_b(t_stack *st);
+void	indexing(t_stack *st);
 
 void	indexing(t_stack *st)
 {

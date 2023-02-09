@@ -1,11 +1,11 @@
 #include "../includes/p_swap.h"
 
-int	find_j(int *stack, int top, int j)
+int	find_j(int *stack, int size, int j)
 {
 	int	i;
 
 	i = 0;
-	while (i <= top)
+	while (i <= size)
 	{
 		if (j == stack[i])
 			return (i);
@@ -14,23 +14,31 @@ int	find_j(int *stack, int top, int j)
 	return (-1);
 }
 
-int	sorted(int *stack, int top)
+// Return 0 if unsorted and 1 is stack is sorted
+int	sorted(t_stack *stack)
 {
 	int i;
 	int	j;
+	int	size;
 
+	//printf("sorted..\t");
+	size = stack->size_a;
 	i = -1;
-	while (++i < top)
+	while (++i < size)
 	{
 		j = i;
-		while (++j <= top)
-			if (stack[i] < stack[j])
-				return (1);
+		while (++j <= size)
+			if (stack->a[i] < stack->a[j])
+			{
+				//printf("return 0 unsorted\t");
+				return (0);
+			}
 	}
-	return (0);
+	//printf("return 1 sorted\t");
+	return (1);
 }
 
-long long	ft_atoi(char *str, t_stack *stack, char **av)
+long long	ft_atoi(char *str, t_stack *stack)
 {
 	int			i;
 	long long	r;
@@ -45,7 +53,7 @@ long long	ft_atoi(char *str, t_stack *stack, char **av)
 	if (str[i] == '-' || str[i] == '+')
 	{
 		if (str[i + 1] < '0' || str[i + 1] > '9')
-			quit(stack, 1, av);
+			quit(stack, 1);
 		if (str[i] == '-')
 			sign *= -1;
 		i++;

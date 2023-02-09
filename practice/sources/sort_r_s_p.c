@@ -1,190 +1,84 @@
 #include "../includes/p_swap.h"
 
-void	pa(int *a, int *top_a, int *b, int *top_b);
-void	pb(int *a, int *top_a, int *b, int *top_b);
-void	sa(int *a, int top, char c);
-void	sb(int *b, int top, char c);
-void	ss(int *a, int top_a, int *b, int top_b);
-void	ra(int *a, int top, char c);
-void	rb(int *b, int top, char c);
-void	rr(int *a, int top_a, int *b, int top_b);
-void	rra(int *a, int top, char c);
-void	rrb(int *b, int top, char c);
-void	rrr(int *a, int top_a, int *b, int top_b);
+void	pa(t_stack *st);
+void	pb(t_stack *st);
+void	sa(int *a, int size);
+void	sb(int *b, int size);
+void	ss(int *a, int size_a, int *b, int size_b);
+void	ra(int *a, int size);
+void	rb(int *b, int size);
+void	rr(int *a, int size_a, int *b, int size_b);
+void	rra(int *a, int size);
+void	rrb(int *b, int size);
+void	rrr(int *a, int size_a, int *b, int size_b);
 
-void	pa(int *a, int *top_a, int *b, int *top_b)
+void	pa(t_stack *st)
 {
-	if (*top_b > -1)
-	{
-		a[*top_a + 1] = b[*top_b];
-		*top_b -= 1;
-		*top_a += 1;
-	}
-	write(1, "pa\n", 3);
+	int	item;
+
+	pop(st, 'b', &item);
+	push(st, 'a', item);
+	//write(1, "pa\n", 3);
 }
 
-void	pb(int *a, int *top_a, int *b, int *top_b)
+void	pb(t_stack *st)
 {
-	if (*top_a > -1)
-	{
-		b[*top_b + 1] = a[*top_a];
-		*top_a -= 1;
-		*top_b += 1;
-	}
-	write(1, "pb\n", 3);
+	int	item;
+
+	pop(st, 'a', &item);
+	push(st, 'b', item);
+	//write(1, "pb\n", 3);
 }
 
-void	sa(int *a, int top, char c)
+void	sa(int *a, int size)
 {
-	int	tmp;
-
-	if (top >= 1)
-	{
-		tmp = a[top];
-		a[top] = a[top - 1];
-		a[top - 1] = tmp;
-	}
-	if (c != '2')
-		write(1, "sa\n", 3);
+	if (size > 1)
+		swap(&a[size - 1], &a[size - 2], 'a');
 }
 
-void	sb(int *b, int top, char c)
+void	sb(int *b, int size)
 {
-	int	tmp;
-
-	if (top >= 1)
-	{
-		tmp = b[top];
-		b[top] = b[top - 1];
-		b[top - 1] = tmp;
-	}
-	if (c != '2')
-		write(1, "sb\n", 3);
+	if (size > 1)
+		swap(&b[size - 1], &b[size - 2], 'b');
 }
 
-void	ss(int *a, int top_a, int *b, int top_b)
+void	ss(int *a, int size_a, int *b, int size_b)
 {
-	sa(a, top_a, '2');
-	sb(b, top_b, '2');
+	swap(&a[size_a - 1], &a[size_a - 2], 's');
+	swap(&b[size_b - 1], &b[size_b - 2], 's');
 	write(1, "ss\n", 3);
 }
 
-void	ra(int *a, int top, char c)
+void	ra(int *a, int size)
 {
-	int	i;
-	int	*tmp;
-
-	tmp = (int *)malloc(sizeof(int) * (top + 1));
-	if (!tmp)
-	{
-		free(a);
-		exit (0);
-	}
-	tmp[0] = a[top];
-	i = top + 1;
-	while (--i > 0)
-	{
-		tmp[i] = a[i - 1];
-	}
-	i = -1;
-	while (++i <= top)
-	{
-		a[i] = tmp[i];
-	}
-	free(tmp);
-	if (c != '2')
-		write(1, "ra\n", 3);
+	rotate(a, size, 'a');
 }
 
-void	rb(int *b, int top, char c)
+void	rb(int *b, int size)
 {
-	int	i;
-	int	*tmp;
-
-	tmp = (int *)malloc(sizeof(int) * (top + 1));
-	if (!tmp)
-	{
-		free(b);
-		exit (0);
-	}
-	tmp[0] = b[top];
-	i = top + 1;
-	while (--i > 0)
-		tmp[i] = b[i - 1];
-	i = -1;
-	while (++i <= top)
-	{
-		b[i] = tmp[i];
-	}
-	free(tmp);
-	if (c != '2')
-		write(1, "rb\n", 3);
+	rotate(b, size, 'b');
 }
 
-void	rr(int *a, int top_a, int *b, int top_b)
+void	rr(int *a, int size_a, int *b, int size_b)
 {
-	ra(a, top_a, '2');
-	rb(b, top_b, '2');
+	rotate(a, size_a, 'r');
+	rotate(b, size_b, 'r');
 	write(1, "rr\n", 3);
 }
 
-void	rra(int *a, int top, char c)
+void	rra(int *a, int size)
 {
-	int	i;
-	int	*tmp;
-
-	tmp = (int *)malloc(sizeof(int) * (top + 1));
-	if (!tmp)
-	{
-		free(a);
-		exit (0);
-	}
-	i = top + 1;
-	while (--i > 0)
-	{
-		tmp[i - 1] = a[i];
-	}
-	tmp[top] = a[0];
-	i = -1;
-	while (++i <= top)
-	{
-		a[i] = tmp[i];
-	}
-	free(tmp);
-	if (c != '2')
-		write(1, "rra\n", 4);
+	reverse_rotate(a, size, 'a');
 }
 
-void	rrb(int *b, int top, char c)
+void	rrb(int *b, int size)
 {
-	int i;
-	int	*tmp;
-
-	tmp = (int *)malloc(sizeof(int) * (top + 1));
-	if (!tmp)
-	{
-		free(b);
-		exit (0);
-	}
-	i = top + 1;
-	while (--i > 0)
-	{
-		tmp[i - 1] = b[i];
-	}
-	tmp[top] = b[0];
-	i = -1;
-	while (++i <= top)
-	{
-		b[i] = tmp[i];
-	}
-	free(tmp);
-	if (c != '2')
-		write(1, "rrb\n", 4);
+	reverse_rotate(b, size, 'b');
 }
 
-void	rrr(int *a, int top_a, int *b, int top_b)
+void	rrr(int *a, int size_a, int *b, int size_b)
 {
-	rra(a, top_a, '2');
-	rrb(b, top_b, '2');
+	reverse_rotate(a, size_a, 'r');
+	reverse_rotate(b, size_b, 'r');
 	write(1, "rrr\n", 4);
 }

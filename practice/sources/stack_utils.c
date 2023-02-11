@@ -6,7 +6,7 @@
 /*   By: sbocanci <sbocanci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/01 15:41:24 by sbocanci          #+#    #+#             */
-/*   Updated: 2023/02/09 16:52:07 by sbocanci         ###   ########.fr       */
+/*   Updated: 2023/02/11 11:04:59 by sbocanci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,15 +49,15 @@ int	pop(t_stack *stack, char s, int *item)
 	return (1);
 }
 
-void	swap(int *a, int *b, char c)
+void	swap(int *a, int *b, char s)
 {
 	int	tmp;
 
 	tmp = *a;
 	*a = *b;
 	*b = tmp;
-	if (c == 'a' || c == 'b')
-		printf("s%c\n", c);
+	if (s == 'a' || s == 'b')
+		printf("s%c\n", s);
 }
 
 // Moves the top item to bottom of stack (the last array item put at index 0)
@@ -74,8 +74,8 @@ void	rotate(int *stack, int size, char s)
 		i--;
 	}
 	stack[0] = tmp;
-	if (c == 'a' || c == 'b')
-		printf("r%c\n", stack->s);
+	if (s == 'a' || s == 'b')
+		printf("r%c\n", s);
 }
 
 // The bottom stack value moved to the top (last array item appears at 0 index)
@@ -92,17 +92,17 @@ void	reverse_rotate(int *stack, int size, char s)
 		i++;
 	}
 	stack[size - 1] = tmp;
-	if (c == 'a' || c == 'b')
-		printf("rr%c\n", stack->s);
+	if (s == 'a' || s == 'b')
+		printf("rr%c\n", s);
 }
 
 // Returns 1 (true) if capacity == size
 int	is_full(t_stack *stack, char s)
 {
 	if (s == 'a')
-		return (stack->a == stack->size_a);
+		return (stack->capacity == stack->size_a);
 	else if (s == 'b')
-		return (stack->b == stack->size_b);
+		return (stack->capacity == stack->size_b);
 }
 
 // Returns 1 (true) if the stack is empty.

@@ -1,19 +1,5 @@
 #include "../includes/p_swap.h"
 
-int	find_j(int *stack, int size, int j)
-{
-	int	i;
-
-	i = 0;
-	while (i <= size)
-	{
-		if (j == stack[i])
-			return (i);
-		i++;
-	}
-	return (-1);
-}
-
 // Return 0 if unsorted and 1 is stack is sorted
 int	sorted(t_stack *stack)
 {

@@ -9,138 +9,115 @@ void	indexing(t_stack *st)
 {
 	int i;
 	int	j;
+	int	buf[st->size_a];
 
-	merge_sort(st->b, 0, st->size_b - 1);
-
+	i = -1;
+	while (++i < st->size_a)
+		buf[i] = st->a[i];
+	merge_sort(buf, 0, i - 1);
+/*
 	printf("\na:\t");
 	for (int i = 0; i < st->size_a; i++)
 		printf("%d, ", st->a[i]);
 	printf("\nb:\t");
-	for (int i = 0; i < st->size_b; i++)
-		printf("%d, ", st->b[i]);
+	for (int i = 0; i < st->size_a; i++)
+		printf("%d, ", buf[i]);
 	printf("\n");
-
+*/
 	i = -1;
 	while (++i < st->size_a)
 	{
 		j = -1;
 		while (++j < st->size_a)
 		{
-			if (st->a[i] == st->b[j])
+			if (st->a[i] == buf[j])
 			{
 				st->a[i] = j;
 				break ;
 			}
 		}
 	}
+/*
 	printf("a:\t");
 	for (int i = 0; i < st->size_a; i++)
 		printf("%d, ", st->a[i]);
 	printf("\n");
-}
-/*
-void	indexing(t_stack *st)
-{
-	int	i;
-	int	j;
-	int	count;
-	int	*new_stack;
-
-	i = -1;
-	count = 0;
-	new_stack = (int *)malloc(sizeof(int) * (st->size_a));
-	while (++i < st->size_a)
-	{
-		j = -1;
-		while (++j < st->size_a)
-		{
-			if (st->a[j] < st->b[i])
-				count++;
-			printf("\nst->a[%d]:'%d' < st->b[%d]:'%d'\tcount:'%d'", j, st->a[j], i, st->b[i], count);
-		}
-		new_stack[i] = count;
-		count = 0;
-	}
-	free(st->a);
-	st->a = new_stack;
-}
 */
-void	push_sorted_to_b(t_stack *st)
+}
+
+void	first_push_to_b(t_stack *st)
 {
 	int i;
 	int	n;
 	int chunk;
+	int top;
 
 	i = 1;
 	n = 1;
 	chunk = ((st->size_a - 1) / 10) + 10;
-	printf("push_to_b\n");
-	while (st->size_a >= 0)
+	//printf("push_to_b\t");
+	//printf("(chunk:'%d' * n:'%d') == '%d'\n", chunk, n, chunk * n);
+	while (!is_empty(st, 'a'))
 	{
-		if (st->a[st->size_a - 1] < chunk * n)
+		top = st->size_a - 1;
+		//printf("st->a[%d]:'%d'\n", top, st->a[top]);
+		if (st->a[top] < chunk * n)
 		{
-			printf("st->a[%d]:'%d' < chunk:'%d' * n:'%d'\n", st->size_a - 1, st->a[st->size_a - 1], chunk, n);
-			//pb(st->a, &st->size_a, st->b, &st->size_b);
 			pb(st);
-			if (st->b[st->size_b - 1] < (chunk * n) - (chunk / 2))
+			top = st->size_b - 1;
+			//printf("\tst->b[%d]:'%d' < '%d'\n", top, st->b[top], (chunk * n) - (chunk / 2));
+			if (top && st->b[top] < (chunk * n) - (chunk / 2))
 				rb(st->b, st->size_b);
 			i++;
 		}
 		else
 		{
-			printf("st->a[%d]:'%d'\n", st->size_a, st->a[st->size_a]);
-			while (st->a[st->size_a - 1] >= chunk * n)
+			while (st->a[top] >= chunk * n)
+			{
+				//printf("\tst->a[%d]:'%d' .. a[%d]:'%d'\n", top, st->a[top], top - 1, st->a[top - 1]);
 				ra(st->a, st->size_a);
+			}
 		}
 		if (i == chunk * n)
 			n++;
+		//printf("---\tn:'%d'---\n", n);
 	}
-	printf("..end push_to_b\n");
+	//printf("..end push_to_b\n");
 }
 
-void	mini_search(t_stack *st, int *i, int j)
-{
-	int	f_j;
-
-	f_j = -1;
-	while (*i <= st->size_b)
-	{
-		f_j = find_j(st->b, st->size_b, j);
-		if (f_j >= (st->size_b / 2))
-		{
-			if (st->b[st->size_b] != j)
-				rb(st->b, st->size_b);
-		}
-		else if (f_j < (st->size_b / 2))
-		{
-			if (st->b[st->size_b] != j)
-				rrb(st->b, st->size_b);
-		}
-		*i++;
-	}
-}
-
-void	push_sorted_to_a(t_stack *st)
+void	find_max(t_stack *st, int *max, int *index)
 {
 	int	i;
-	int	j;
-	int	k;
 
-	i = 0;
-	k = st->size_b;
-	j = st->b[st->size_b];
-	while (k + 1)
+	i = -1;
+	*max = st->b[st->size_b - 1];
+	while (++i < st->size_b)
 	{
-		i = -1;
-		while (++i <= st->size_b)
+		if (st->b[i] > *max)
 		{
-			if (j < st->b[i])
-				j = st->b[i];
+			*max = st->b[i];
+			*index = i;
 		}
-		i = -1;
-		mini_search(st, &i, j);
+	}
+}
+
+void	pushback_to_a(t_stack *st)
+{
+	int	top;
+	int	max;
+	int	index;
+
+	while (!is_empty(st, 'b'))
+	{
+		find_max(st, &max, &index);
+		top = st->size_b - 1;
+		while (st->b[top] != max)
+		{
+			if (index >= top / 2)
+				rb(st->b, st->size_b);
+			else if (index < top / 2)
+				rrb(st->b, st->size_b);
+		}
 		pa(st);
-		j = st->b[st->size_b];
-		k--;
 	}
 }

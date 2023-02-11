@@ -1,7 +1,7 @@
 #include "../includes/p_swap.h"
 
 int	check_space(char **av);
-int	check_repeat(int *st, int top);
+int	unique_values(int *st, int size);
 int	check_arg(int ac, char **av);
 
 int	check_arg(int ac, char **av)
@@ -22,27 +22,30 @@ int	check_arg(int ac, char **av)
 			if ((av[i][j] < '0' || av[i][j] > '9'))
 				return (0);
 		}
-		printf("\tav[%d]:'%s'\n", i, av[i]);
+		//printf("\tav[%d]:'%s'\n", i, av[i]);
 	}
 	return (1);
 }
 
-int	check_repeat(int *st, int top)
+int	unique_values(int *st, int size)
 {
 	int	i;
 	int	j;
 
-	printf("check repeat..\t");
+	//printf("check repeat..\t");
 	i = -1;
-	while (++i < top)
+	while (++i < size)
 	{
 		j = i;
-		while (++j <= top)
+		while (++j < size)
 		{
+			//printf("st[%d]:'%d' == ", i, st[i]);
+			//printf("st[%d]:'%d'\n", j, st[j]);
 			if (st[i] == st[j])
 				return (0);
 		}
 	}
+	//printf("size:'%d' > return (1)\t", size);
 	return (1);
 }
 

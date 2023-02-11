@@ -11,19 +11,19 @@ void	sort_3nb(t_stack *st, int count)
 	if (count == 3)
 	{
 		if (!sorted(st))
-			sa(st->a, st->size_a, '1');
+			sa(st->a, st->size_a);
 		return ;
 	}
 	while (!sorted(st))
 	{
 		if (st->a[st->size_a] > st->a[(st->size_a) - 1])
 		{
-			sa(st->a, st->size_a, '1');
+			sa(st->a, st->size_a);
 			if (!sorted(st))
-				rra(st->a, st->size_a, '1');
+				rra(st->a, st->size_a);
 		}
 		else
-			rra(st->a, st->size_a, '1');
+			rra(st->a, st->size_a);
 	}
 }
 
@@ -64,16 +64,16 @@ void	push_to_b(t_stack *st)
 	j = find_i(st->a, st->size_a, find_small(st->a, st->size_a));
 	if (j == st->size_a)
 	{
-		pb(st->a, &st->size_a, st->b, &st->size_b);
+		pb(st);
 		return ;
 	}
 	if (j < st->size_a / 2)
 		while (st->a[st->size_a] != find_small(st->a, st->size_a))
-			rra(st->a, st->size_a, '1');
+			rra(st->a, st->size_a);
 	else
 		while (st->a[st->size_a] != find_small(st->a, st->size_a))
-			ra(st->a, st->size_a, '1');
-	pb(st->a, &st->size_a, st->b, &st->size_b);
+			ra(st->a, st->size_a);
+	pb(st);
 }
 
 void	sort_5nb(t_stack *st, int count)
@@ -82,7 +82,7 @@ void	sort_5nb(t_stack *st, int count)
 	if (count == 6)
 		push_to_b(st);
 	sort_3nb(st, 4);
-	pa(st->a, &st->size_a, st->b, &st->size_b);
+	pa(st);
 	if (count == 6)
-		pa(st->a, &st->size_a, st->b, &st->size_b);
+		pa(st);
 }

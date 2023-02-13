@@ -1,20 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   gen_rand_nums.c                                    :+:      :+:    :+:   */
+/*   get_rand_nums.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sbocanci <sbocanci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 15:03:08 by sbocanci          #+#    #+#             */
-/*   Updated: 2023/01/28 15:35:47 by sbocanci         ###   ########.fr       */
+/*   Updated: 2023/02/13 14:16:01 by sbocanci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/push_swap.h"
+#include <unistd.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
 
-static void	get_new_random(int *num, int *min, int *max)
+void	get_rand_nums(int *a, int len, int min, int max);
+static void	get_new_random(int *num, int *min, int *max);
+void	print_random(int *arr, int len);
+
+int	main()
 {
-	*num = (rand() % (*max - *min + 1)) + *min;
+	int	len = 500;
+	int	min = -5000;
+	int	max = 5000;
+	//int	min = -214748364;
+	//int	max = 2147483647;
+	int	arr[len];
+
+	get_rand_nums(arr, len, min, max);
+	print_random(arr, len);
+	return (0);
 }
 
 void	get_rand_nums(int *a, int len, int min, int max)
@@ -36,4 +52,18 @@ void	get_rand_nums(int *a, int len, int min, int max)
 		}
 		a[i] = new_random;
 	}
+}
+
+static void	get_new_random(int *num, int *min, int *max)
+{
+	*num = (rand() % (*max - *min + 1)) + *min;
+}
+
+void	print_random(int *arr, int len)
+{
+	int i = -1;
+
+	while (++i < len)
+		printf("%d ", arr[i]);
+	printf("\n");
 }

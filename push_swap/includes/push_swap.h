@@ -6,7 +6,7 @@
 /*   By: sbocanci <sbocanci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 14:51:54 by sbocanci          #+#    #+#             */
-/*   Updated: 2023/02/06 18:54:13 by sbocanci         ###   ########.fr       */
+/*   Updated: 2023/02/13 14:15:13 by sbocanci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,14 @@
 # include <stdlib.h>
 # include <unistd.h>
 # include <stdio.h>
-# include <time.h>
 
 typedef struct s_stack
 {
-	int	*collection;
+	int	*a;
+	int	*b;
+	int	size_a;
+	int	size_b;
 	int	capacity;
-	int	size;
-	int	s;
 }	t_stack;
 
 void	print_array(int *arr, int len);

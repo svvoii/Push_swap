@@ -6,7 +6,6 @@ void	quit(t_stack *st, int ac);
 int	main(int ac, char *av[])
 {
 	t_stack	st;
-	char	**tmp;
 
 	if (ac < 2)
 		exit (0);
@@ -24,10 +23,7 @@ int	main(int ac, char *av[])
 	// sorted needs to be fixed here. Program quits with err 0
 	//printf("check sort..\t");
 	if (sorted(&st))
-	{
-		//printf(" sorted ");
 		quit(&st, 0);
-	}
 	//printf("..end check sort\n");
 	//printf("ac:'%d'\n", ac);
 	if (ac >= 3 && ac <= 6)

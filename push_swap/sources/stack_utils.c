@@ -6,31 +6,46 @@
 /*   By: sbocanci <sbocanci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/01 15:41:24 by sbocanci          #+#    #+#             */
-/*   Updated: 2023/02/06 19:20:33 by sbocanci         ###   ########.fr       */
+/*   Updated: 2023/02/13 13:32:31 by sbocanci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/push_swap.h"
 
 // Put the new item to the top of the stack (adds item to the end ofthe array)
-int	push(t_stack *stack, int item)
+int	push(int item, t_stack *stack, char name)
 {
-	if (is_full(stack))
+	if (is_full(st, name))
 		return (0);
-	stack->collection[stack->size] = item;
-	stack->size++;
-	if (stack->s)
-		printf("p%c\n", stack->s);
+	if (name == 'a')
+	{
+		stack->a[stack->size_a] = item;
+		stack->size_a++;
+	}
+	else if (name == 'b')
+	{
+		stack->b[stack->size_b] = item;
+		stack->size_b++;
+	}
+	printf("p%c\n", name);
 	return (1);
 }
 
 // Decreases the size ofthe array by 1
-int	pop(t_stack *stack, int *item)
+int	pop(t_stack *stack, char name, int *item)
 {
-	if (is_empty(stack))
+	if (is_empty(stack, name))
 		return (0);
-	stack->size--;
-	*item = stack->collection[stack->size];
+	if (name == 'a')
+	{
+		stack->size_a--;
+		*item = stack->a[stack->size_a];
+	}
+	else if (name == 'b')
+	{
+		stack->size_b--;
+		*item = stack->b[stack->size_b];
+	}
 	return (1);
 }
 
@@ -45,14 +60,14 @@ int	peek(t_stack *stack, int *item)
 }
 */
 
-void	swap(int *a, int *b, char c)
+void	swap(int *a, int *b, char name)
 {
 	int	tmp;
 
 	tmp = *a;
 	*a = *b;
 	*b = tmp;
-	printf("s%c\n", c);
+	printf("s%c\n", name);
 }
 
 // Moves the top item to bottom of stack (the last array item put at index 0)

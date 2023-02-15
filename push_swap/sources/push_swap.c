@@ -6,7 +6,7 @@
 /*   By: sbocanci <sbocanci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 14:48:21 by sbocanci          #+#    #+#             */
-/*   Updated: 2023/02/14 16:31:26 by sbocanci         ###   ########.fr       */
+/*   Updated: 2023/02/15 15:10:07 by sbocanci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	print_av(char **av, int ac)
 
 	while (++i < ac)
 		printf("%s ", av[i]);
-	printf("|\tac:'%d'\n", ac);
+	printf("\n");
 }
 
 void	print_array(int *arr, int size)
@@ -33,58 +33,88 @@ void	print_array(int *arr, int size)
 	printf("\n");
 }
 
+char	**copy_to_2d_str_arr(int ac, char **av, int *count)
+{
+	char	**str;
+	int		i;
+
+	if (ac == 2)
+	{
+		str = ft_split(av[1], ' ');
+		i = 0;
+		while (str[i])
+			i++;
+	}
+	else
+	{
+		str = (char **)malloc(sizeof(char *) * (ac - 1));
+		i = -1;
+		while (++i < ac)
+			str[i] = av[i + 1];
+	}
+	*count = i;
+	return (str);
+}
+
 int	main(int ac, char **av)
 {
 	t_stack	*stack;
+	char	**str;
+	int		count;
 
 	if (ac < 2)
 		exit (0);
-	print_av(av, ac);
-	if (!valid_argv(ac, av))
+	count = 0;
+	str = copy_to_2d_str_arr(ac, av, &count);
+	//print_av(av, ac);
+	//printf("count:'%d'\n", ac);
+	if (!valid_argv(count, str))
 	{
 		write(1, "Error\n", 6);
 		exit (0);
 		//ft_quit(stack, 1);
 	}
-	//printf("valid argsuments!!\n");
-	stack = create_stacks_a_b(ac - 1);
+	stack = create_stacks_a_b(count);
 	if (!stack)
 		write(1, "Error\n", 6);
-	atoi_str_to_stack(av, stack);
+	atoi_str_to_stack(str, stack);
+	//printf("atoi to stack OK!!\tcount:'%d'\n", count);
 	if (!unique_values(stack->a, stack->size_a))
 		ft_quit(stack, 1);
 	if (sorted(stack))
 		ft_quit(stack, 0);
-	if (ac < 20)
+	if (count < 20)
 	{
 		sort_small_stack(stack);
 	}
 	else
 	{
+		indexing(stack);
 		push_swap_to_b(stack);
 		push_swap_back_to_a(stack);
 	}
-	print_array(stack->a, stack->size_a);
+	//print_array(stack->a, stack->size_a);
+	printf("count: '%d'\n", stack->count);
 	ft_quit(stack, 0);
 	return (0);
 }
 
-int	valid_argv(int ac, char **av)
+int	valid_argv(int count, char **str)
 {
 	int	i;
 	int	j;
 
-	if (!av || !*av)
+	if (!str || !*str)
 		return (0);
-	i = 0;
-	while (++i < ac)
+	i = -1;
+	while (++i < count)
 	{
 		j = -1;
-		while (av[i][++j])
+		while (str[i][++j])
 		{
-			if (j == 0 && (av[i][j] == '-' || av[i][j] == '+'))
+			if (j == 0 && (str[i][j] == '-' || str[i][j] == '+'))
 				j++;
-			if ((av[i][j] < '0' || av[i][j] > '9'))
+			if ((str[i][j] < '0' || str[i][j] > '9'))
 				return (0);
 		}
 	}

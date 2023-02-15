@@ -6,7 +6,7 @@
 /*   By: sbocanci <sbocanci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/01 12:23:11 by sbocanci          #+#    #+#             */
-/*   Updated: 2023/02/14 16:15:58 by sbocanci         ###   ########.fr       */
+/*   Updated: 2023/02/15 13:48:50 by sbocanci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ t_stack	*create_stacks_a_b(int capacity)
 	st->capacity = capacity;
 	st->size_a = 0;
 	st->size_b = 0;
+	st->count = 0;
 	return (st);
 }
 
@@ -52,17 +53,17 @@ int	is_empty(t_stack *stack, char name)
 }
 
 // Following two f() convert chars from av to int and store in stack a
-void	atoi_str_to_stack(char **av, t_stack *st)
+void	atoi_str_to_stack(char **str, t_stack *st)
 {
 	long	num;
 	int		size;
 	int		i;
 
 	size = 0;
-	i = st->capacity + 1;
-	while (--i > 0)
+	i = st->capacity;
+	while (--i >= 0)
 	{
-		num = ft_atoi(av[i], st);
+		num = ft_atoi(str[i], st);
 		if (num > 2147483647 || num < -2147483648)
 			ft_quit(st, 1);
 		//st->b[size] = 0;

@@ -6,7 +6,7 @@
 /*   By: sbocanci <sbocanci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 15:03:08 by sbocanci          #+#    #+#             */
-/*   Updated: 2023/02/14 15:44:24 by sbocanci         ###   ########.fr       */
+/*   Updated: 2023/02/15 17:55:06 by sbocanci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	print_random(int *arr, int len);
 
 int	main()
 {
-	int	len = 5;
+	int	len = 100;
 	int	min = -500;
 	int	max = 500;
 	//int	min = -214748364;

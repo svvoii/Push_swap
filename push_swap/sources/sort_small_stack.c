@@ -12,6 +12,12 @@
 
 #include "../includes/push_swap.h"
 
+void	sort_small_stack(t_stack *st);
+void	sort_three_nums(t_stack *st);
+void	find_lowest_and_swap_or_rr(t_stack *st, char name, int i);
+void	search_index_to_insert_b(t_stack *st, int value);
+void	rotate_to_set_in_order_b(t_stack *st, int n);
+
 // Main sorting f() which calls different actions while a is not sorted
 void	sort_small_stack(t_stack *st)
 {
@@ -23,18 +29,18 @@ void	sort_small_stack(t_stack *st)
 			sort_three_nums(st);
 		else
 		{
-			find_lowest_and_swap_or_rr(st->a, st->size_a);
+			find_lowest_and_swap_or_rr(st, 'a', st->size_a);
 			pop(&item, st, 'a');
-			search_index_to_insert(st->b, st->size_b, item);
+			search_index_to_insert_b(st, item);
 			push(item, st, 'b');
 		}
 	}
-	rotate_to_set_in_order_b(st->b, st->size_b, 0);
+	rotate_to_set_in_order_b(st, 0);
 	while (!is_empty(st, 'b'))
 	{
 		pop(&item, st, 'b');
 		push(item, st, 'a');
-		find_lowest_and_swap_or_rr(st->a, st->size_a);
+		find_lowest_and_swap_or_rr(st, 'a', st->size_a);
 	}
 }
 
@@ -48,67 +54,67 @@ void	sort_three_nums(t_stack *st)
 		if (st->a[0] > st->a[1])
 		{
 			if (st->a[1] < st->a[2] && st->a[2] < st->a[0])
-				swap(&st->a[1], &st->a[2], 'a');
+				swap(st, 1, 2, 'a');
 			else
-				rotate(st->a, st->size_a, 'a');
+				rotate(st, 'a');
 		}
 		else if (st->a[0] < st->a[1])
 		{
 			if (st->a[0] < st->a[2] && st->a[1] > st->a[2]) 
-				reverse_rotate(st->a, st->size_a, 'a');
+				reverse_rotate(st, 'a');
 			else
-				swap(&st->a[1], &st->a[2], 'a');
+				swap(st, 1, 2, 'a');
 		}
 	}
 }
 
-void	find_lowest_and_swap_or_rr(int *a, int size)
+void	find_lowest_and_swap_or_rr(t_stack *st, char name, int i)
 {
-	if (a[size - 2] < a[size - 1] && a[size - 2] < a[0])
-		swap(&a[size - 1], &a[size - 2], 'a');
-	else if (a[0] < a[size - 1] && a[0] < a[size - 2])
-		reverse_rotate(a, size, 'a');
+	if (st->a[i - 2] < st->a[i - 1] && st->a[i - 2] < st->a[0])
+		swap(st, i - 1, i - 2, name);
+	else if (st->a[0] < st->a[i - 1] && st->a[0] < st->a[i - 2])
+		reverse_rotate(st, name);
 }
 
 // Aux f() which identifies the index in b where to insert
-void	search_index_to_insert(int *b, int size, int value)
+void	search_index_to_insert_b(t_stack *st, int value)
 {
 	int	i;
 
 	i = 0;
-	if (size < 2)
+	if (st->size_b < 2)
 		return ;
-	rotate_to_set_in_order_b(b, size, i);
-	if (value > b[0] && value < b[size - 1])
+	rotate_to_set_in_order_b(st, i);
+	if (value > st->b[0] && value < st->b[st->size_b - 1])
 	{
 		i = 0;
-		while (++i < size)
-			if (value > b[i - 1] && value < b[i])
+		while (++i < st->size_b)
+			if (value > st->b[i - 1] && value < st->b[i])
 				break ;
 	}
 	if (!i)
 		return ;
-	rotate_to_set_in_order_b(b, size, i);
+	rotate_to_set_in_order_b(st, i);
 }
 
 // Rotates b to put nums in descending order based on situation
-void	rotate_to_set_in_order_b(int *b, int size, int n)
+void	rotate_to_set_in_order_b(t_stack *st, int n)
 {
 	int	i;
 
 	i = n;
 	if (i == 0)
 	{
-		while (++i < size)
-			if (b[i - 1] > b[i])
+		while (++i < st->size_b)
+			if (st->b[i - 1] > st->b[i])
 				break ;
-		if (i == size)
+		if (i == st->size_b)
 			return ;
 	}
-	if (i <= size / 2)
+	if (i <= st->size_b / 2)
 		while (--i >= 0)
-			reverse_rotate(b, size, 'b');
+			reverse_rotate(st, 'b');
 	else
-		while (size - ++i >= 0)
-			rotate(b, size, 'b');
+		while (st->size_b - ++i >= 0)
+			rotate(st, 'b');
 }

@@ -6,7 +6,7 @@
 /*   By: sbocanci <sbocanci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 14:48:21 by sbocanci          #+#    #+#             */
-/*   Updated: 2023/02/15 15:10:07 by sbocanci         ###   ########.fr       */
+/*   Updated: 2023/02/16 18:30:43 by sbocanci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,10 +90,11 @@ int	main(int ac, char **av)
 	else
 	{
 		indexing(stack);
-		push_swap_to_b(stack);
+		push_chunks_to_b(stack);
+		//push_swap_to_b(stack);
 		push_swap_back_to_a(stack);
 	}
-	//print_array(stack->a, stack->size_a);
+	print_array(stack->a, stack->size_a);
 	printf("count: '%d'\n", stack->count);
 	ft_quit(stack, 0);
 	return (0);

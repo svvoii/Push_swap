@@ -6,7 +6,7 @@
 /*   By: sbocanci <sbocanci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/01 15:41:24 by sbocanci          #+#    #+#             */
-/*   Updated: 2023/02/15 14:57:02 by sbocanci         ###   ########.fr       */
+/*   Updated: 2023/02/17 11:42:16 by sbocanci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	push(int item, t_stack *st, char name)
 		st->size_b++;
 	}
 	st->count++;
-	//printf("p%c\n", name);
+	printf("p%c\n", name);
 	return (1);
 }
 
@@ -65,8 +65,10 @@ void	swap(t_stack *st, int a, int b, char name)
 	st->a[a] = st->a[b];
 	st->a[b] = tmp;
 	if (name == 'a' || name == 'b')
+	{
+		printf("s%c\n", name);
 		st->count++;
-		//printf("s%c\n", name);
+	}
 }
 
 // Moves the top item to bottom of stack (the last array item put at index 0)
@@ -92,8 +94,10 @@ void	rotate(t_stack *st, char name)
 		st->b[0] = tmp;
 	}
 	if (name == 'a' || name == 'b')
+	{
+		printf("r%c\n", name);
 		st->count++;
-		//printf("r%c\n", name);
+	}
 }
 
 // The bottom stack value moved to the top (last array item appears at 0 index)
@@ -119,6 +123,8 @@ void	reverse_rotate(t_stack *st, char name)
 		st->b[st->size_b - 1] = tmp;
 	}
 	if (name == 'a' || name == 'b')
+	{
 		st->count++;
-		//printf("rr%c\n", name);
+		printf("rr%c\n", name);
+	}
 }

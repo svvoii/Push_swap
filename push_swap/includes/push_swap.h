@@ -6,7 +6,7 @@
 /*   By: sbocanci <sbocanci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 14:51:54 by sbocanci          #+#    #+#             */
-/*   Updated: 2023/02/16 18:26:55 by sbocanci         ###   ########.fr       */
+/*   Updated: 2023/02/17 12:33:12 by sbocanci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ void	rotate_to_set_in_order_b(t_stack *st, int n);
 void	indexing(t_stack *st);
 void	merge_sort(int *arr, int start, int end);
 void	push_chunks_to_b(t_stack *st);
+void	rotate_b_for_proper_insert(t_stack *st, int item);
 void	push_swap_to_b(t_stack *st);
 void	find_max(t_stack *st, int *max, int *index);
 void	push_swap_back_to_a(t_stack *st);

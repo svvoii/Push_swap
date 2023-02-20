@@ -6,7 +6,7 @@
 /*   By: sbocanci <sbocanci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 14:51:54 by sbocanci          #+#    #+#             */
-/*   Updated: 2023/02/17 12:33:12 by sbocanci         ###   ########.fr       */
+/*   Updated: 2023/02/20 18:17:14 by sbocanci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ typedef struct s_stack
 	int	size_b;
 	int	capacity;
 	int	count;
+	int	chunk;
 }	t_stack;
 
 // push_swap.c (main)
@@ -54,6 +55,7 @@ void	indexing(t_stack *st);
 void	merge_sort(int *arr, int start, int end);
 void	push_chunks_to_b(t_stack *st);
 void	rotate_b_for_proper_insert(t_stack *st, int item);
+void	next_index_to_push(t_stack *st, int *tmp1, int *tmp2);
 void	push_swap_to_b(t_stack *st);
 void	find_max(t_stack *st, int *max, int *index);
 void	push_swap_back_to_a(t_stack *st);

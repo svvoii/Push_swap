@@ -6,7 +6,7 @@
 /*   By: sbocanci <sbocanci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/01 15:41:24 by sbocanci          #+#    #+#             */
-/*   Updated: 2023/02/17 11:42:16 by sbocanci         ###   ########.fr       */
+/*   Updated: 2023/02/20 17:43:06 by sbocanci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,27 +77,29 @@ void	rotate(t_stack *st, char name)
 	int	tmp;
 	int	i;
 
-	if (name == 'a')
+	if (name == 'a' || name == 'r')
 	{
 		tmp = st->a[st->size_a - 1];
 		i = st->size_a - 1;
 		while (--i >= 0)
 			st->a[i + 1] = st->a[i];
 		st->a[0] = tmp;
+		if (name == 'a')
+			printf("r%c\n", name);
 	}
-	else if (name == 'b')
+	if (name == 'b' || name == 'r')
 	{
 		tmp = st->b[st->size_b - 1];
 		i = st->size_b - 1;
 		while (--i >= 0)
 			st->b[i + 1] = st->b[i];
 		st->b[0] = tmp;
+		if (name == 'b')
+			printf("r%c\n", name);
 	}
-	if (name == 'a' || name == 'b')
-	{
+	if (name == 'r')
 		printf("r%c\n", name);
-		st->count++;
-	}
+	st->count++;
 }
 
 // The bottom stack value moved to the top (last array item appears at 0 index)
@@ -106,25 +108,27 @@ void	reverse_rotate(t_stack *st, char name)
 	int	i;
 	int	tmp;
 
-	if (name == 'a')
+	if (name == 'a' || name == 'r')
 	{
 		tmp = st->a[0];
 		i = -1;
 		while (++i < st->size_a - 1)
 			st->a[i] = st->a[i + 1];
 		st->a[st->size_a - 1] = tmp;
+		if (name == 'a')
+			printf("rr%c\n", name);
 	}
-	if (name == 'b')
+	if (name == 'b' || name == 'r')
 	{
 		tmp = st->b[0];
 		i = -1;
 		while (++i < st->size_b - 1)
 			st->b[i] = st->b[i + 1];
 		st->b[st->size_b - 1] = tmp;
+		if (name == 'b')
+			printf("rr%c\n", name);
 	}
-	if (name == 'a' || name == 'b')
-	{
-		st->count++;
+	if (name == 'r')
 		printf("rr%c\n", name);
-	}
+	st->count++;
 }

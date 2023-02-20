@@ -6,7 +6,7 @@
 /*   By: sbocanci <sbocanci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 14:48:21 by sbocanci          #+#    #+#             */
-/*   Updated: 2023/02/17 16:57:20 by sbocanci         ###   ########.fr       */
+/*   Updated: 2023/02/20 13:53:09 by sbocanci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,10 @@ char	**copy_to_2d_str_arr(int ac, char **av, int *count)
 	{
 		str = (char **)malloc(sizeof(char *) * (ac - 1));
 		i = -1;
-		while (++i < ac)
+		while (++i < ac - 1)
+		{
 			str[i] = av[i + 1];
+		}
 	}
 	*count = i;
 	return (str);

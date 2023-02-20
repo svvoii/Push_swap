@@ -6,7 +6,7 @@
 /*   By: sbocanci <sbocanci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 14:48:21 by sbocanci          #+#    #+#             */
-/*   Updated: 2023/02/17 16:59:40 by sbocanci         ###   ########.fr       */
+/*   Updated: 2023/02/20 18:29:21 by sbocanci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 void	indexing(t_stack *st);
 void	push_chunks_to_b(t_stack *st);
 //void	push_swap_to_b(t_stack *st);
+void	next_index_to_push(t_stack *st, int *tmp1, int *tmp2);
 void	rotate_b_for_proper_insert(t_stack *st, int item);
 void	find_max(t_stack *st, int *max, int *index);
 void	push_swap_back_to_a(t_stack *st);
@@ -106,6 +107,7 @@ int is_min(t_stack *st, int item)
 	return (1);
 }
 
+/*
 void	rotate_b_for_proper_insert(t_stack *st, int item)
 {
 	int	i;
@@ -124,44 +126,69 @@ void	rotate_b_for_proper_insert(t_stack *st, int item)
 		i++;
 	while (item > st->b[i] && i < st->size_b)
 		i++;
-	//printf("\t\ti:'%d' .. size_b:'%d'\n", i, st->size_b);
 	rotate_to_set_in_order_b(st, i);
-	//printf("\t\tb[%d]:'%d' < %d < b[%d]:'%d'\n", i - 1, st->b[i - 1], item, i, st->b[i]);
+}
+
+*/
+void	next_index_to_push(t_stack *st, int *tmp1, int *tmp2)
+{
+	int	top;
+
+	*tmp1 = 0;
+	*tmp2 = 0;
+	top = st->size_a - 1;
+	while (st->a[top - *tmp1] >= st->chunk)
+		*tmp1 += 1;
+	while (st->a[*tmp2] >= st->chunk)
+		*tmp2 += 1;
+}
+
+void	equal_top_bott_placement(t_stack *st, int *item, int chunk_total)
+{
+	int	top;
+	int	tmp1;
+	int	tmp2;
+
+	tmp1 = 0;
+	tmp2 = 0;
+	top = st->size_a - 1;
+	while (st->a[top - tmp1] >= st->chunk)
+		tmp1++;
+	while (st->a[tmp2] >= st->chunk)
+		tmp2++;
+	//if (st->size_b < *item)
+	if (*item < chunk_total - (st->chunk / 2))
+	{
+		if (tmp1 <= tmp2)
+			rotate(st, 'r');
+		else
+			rotate(st, 'b');
+	}
 }
 
 void	push_chunks_to_b(t_stack *st)
 {
 	int	n;
-	int	chunk;
 	int	item;
 
-	//print_array(st->a, st->size_a);
 	n = 1;
-	chunk = (st->size_a / 5);
+	if (st->size_a < 101)
+		st->chunk = (st->size_a / 5);
+	if (st->size_a > 400)
+		st->chunk = (st->size_a / 9);
 	while (!is_empty(st, 'a'))
 	{
-		return_index_to_push(st, (chunk * n));
-		//check for correct place to insert into b
+		return_index_to_push(st, (st->chunk * n));
 		pop(&item, st, 'a');
-
-		//printf("\titem:'%d' .. chunk:'%d'\n", item, chunk * n);
-		//printf("\tbefore push:\t");
-		//print_array(st->b, st->size_b);
-
-		rotate_b_for_proper_insert(st, item);
+		//rotate_b_for_proper_insert(st, item);
 		push(item, st, 'b');
+		equal_top_bott_placement(st, &item, st->chunk * n);
 
-		//printf("\tafter push:\t");
-		//print_array(st->b, st->size_b);
-		if (st->size_b == (chunk * n))
+		if (st->size_b == (st->chunk * n))
 		{
-			//print_array(st->a, st->size_a);
-			//printf("chunk:'%d' size_b:'%d' size_a:'%d'\n", chunk * n, st->size_b, st->size_a);
-			//print_array(st->b, st->size_b);
 			n++;
 		}
 	}
-	//printf("count: '%d'\n", st->count);
 }
 /*
 void	push_swap_to_b(t_stack *st)

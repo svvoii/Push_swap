@@ -100,10 +100,6 @@ void	search_index_to_insert_b(t_stack *st, int value)
 // Rotates b to put nums in descending order based on situation
 void	rotate_to_set_in_order_b(t_stack *st, int i)
 {
-	int	tmp1;
-	int	tmp2;
-
-	next_index_to_push(st, &tmp1, &tmp2);
 	if (i == 0)
 	{
 		while (++i < st->size_b)
@@ -115,17 +111,11 @@ void	rotate_to_set_in_order_b(t_stack *st, int i)
 	if (i <= st->size_b / 2)
 		while (--i >= 0)
 		{
-			if (tmp1 > tmp2 && tmp2--)
-				reverse_rotate(st, 'r');
-			else
-				reverse_rotate(st, 'b');
+			reverse_rotate(st, 'b');
 		}
 	else
 		while (st->size_b - ++i >= 0)
 		{
-			if (tmp1 <= tmp2 && --tmp1)
-				rotate(st, 'r');
-			else
-				rotate(st, 'b');
+			rotate(st, 'b');
 		}
 }

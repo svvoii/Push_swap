@@ -6,7 +6,7 @@
 /*   By: sbocanci <sbocanci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 14:48:21 by sbocanci          #+#    #+#             */
-/*   Updated: 2023/02/20 13:53:09 by sbocanci         ###   ########.fr       */
+/*   Updated: 2023/02/21 13:58:40 by sbocanci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ int	main(int ac, char **av)
 		ft_quit(stack, 1);
 	if (sorted(stack))
 		ft_quit(stack, 0);
-	if (count < 20)
+	if (count < 10)
 	{
 		sort_small_stack(stack);
 	}

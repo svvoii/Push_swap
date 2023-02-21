@@ -6,17 +6,22 @@
 /*   By: sbocanci <sbocanci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 14:48:21 by sbocanci          #+#    #+#             */
-/*   Updated: 2023/02/20 18:29:21 by sbocanci         ###   ########.fr       */
+/*   Updated: 2023/02/21 16:37:43 by sbocanci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/push_swap.h"
 
+/*
 void	indexing(t_stack *st);
 void	push_chunks_to_b(t_stack *st);
 //void	push_swap_to_b(t_stack *st);
-void	next_index_to_push(t_stack *st, int *tmp1, int *tmp2);
+void	next_index_to_push_b(t_stack *st, int *from_top, int *from_btm);
+void	rotate_a_before_push_b(t_stack *st, int from_top, int from_btm);
+void	equal_top_bott_placement(t_stack *st, int *item);
+
 void	rotate_b_for_proper_insert(t_stack *st, int item);
+
 void	find_max(t_stack *st, int *max, int *index);
 void	push_swap_back_to_a(t_stack *st);
 
@@ -41,39 +46,6 @@ void	indexing(t_stack *st)
 				st->a[i] = j;
 				break ;
 			}
-		}
-	}
-}
-
-void	return_index_to_push(t_stack *st, int chunk)
-{
-	int	top;
-	int	tmp1;
-	int	tmp2;
-
-	tmp1 = 0;
-	tmp2 = 0;
-	top = st->size_a - 1;
-	while (st->a[top - tmp1] >= chunk)
-		tmp1++;
-	while (st->a[tmp2] >= chunk)
-		tmp2++;
-	//printf("\ta[%d]:'%d' .. a[%d]:'%d' .. chunk:'%d'\n", top - tmp1, st->a[top - tmp1], tmp2, st->a[tmp2], chunk);
-	if (tmp1 <= tmp2)
-	{
-		while (--tmp1 >= 0)
-		{
-			rotate(st, 'a');
-			//printf("\t\tr: tmp1:'%d' top:'%d'\n", tmp1, st->a[top]);
-		}
-	}
-	else
-	{
-		while (tmp2 >= 0)
-		{
-			reverse_rotate(st, 'a');
-			//printf("\t\trr: tmp2:'%d' top:'%d'\n", tmp2, st->a[top]);
-			tmp2--;
 		}
 	}
 }
@@ -107,7 +79,6 @@ int is_min(t_stack *st, int item)
 	return (1);
 }
 
-/*
 void	rotate_b_for_proper_insert(t_stack *st, int item)
 {
 	int	i;
@@ -129,37 +100,54 @@ void	rotate_b_for_proper_insert(t_stack *st, int item)
 	rotate_to_set_in_order_b(st, i);
 }
 
-*/
-void	next_index_to_push(t_stack *st, int *tmp1, int *tmp2)
+void	next_index_to_push_b(t_stack *st, int *from_top, int *from_btm)
 {
+	int	n;
 	int	top;
+	int	btm;
 
-	*tmp1 = 0;
-	*tmp2 = 0;
-	top = st->size_a - 1;
-	while (st->a[top - *tmp1] >= st->chunk)
-		*tmp1 += 1;
-	while (st->a[*tmp2] >= st->chunk)
-		*tmp2 += 1;
+	top = 0;
+	btm = 0;
+	n = (st->size_b / st->chunk) + 1;
+	while (st->a[st->size_a - 1 - top] >= st->chunk * n)
+		top++;
+	while (st->a[btm] >= st->chunk * n)
+		btm++;
+	*from_top = top;
+	*from_btm = btm;
 }
 
-void	equal_top_bott_placement(t_stack *st, int *item, int chunk_total)
+void	rotate_a_before_push_b(t_stack *st, int from_top, int from_btm)
 {
-	int	top;
-	int	tmp1;
-	int	tmp2;
-
-	tmp1 = 0;
-	tmp2 = 0;
-	top = st->size_a - 1;
-	while (st->a[top - tmp1] >= st->chunk)
-		tmp1++;
-	while (st->a[tmp2] >= st->chunk)
-		tmp2++;
-	//if (st->size_b < *item)
-	if (*item < chunk_total - (st->chunk / 2))
+	if (from_top <= from_btm)
 	{
-		if (tmp1 <= tmp2)
+		while (--from_top >= 0)
+			rotate(st, 'a');
+	}
+	else
+	{
+		while (from_btm >= 0)
+		{
+			reverse_rotate(st, 'a');
+			from_btm--;
+		}
+	}
+}
+
+void	equal_top_bott_placement(t_stack *st, int *item)
+{
+	int	n;
+	int	from_top;
+	int	from_btm;
+
+	from_top = 0;
+	from_btm = 0;
+	n = (st->size_b / st->chunk) + 1;
+	next_index_to_push_b(st, &from_top, &from_btm);
+	//if (st->size_b < *item)
+	if (*item < (st->chunk * n) - (st->chunk / 2))
+	{
+		if (from_top <= from_btm)
 			rotate(st, 'r');
 		else
 			rotate(st, 'b');
@@ -169,72 +157,29 @@ void	equal_top_bott_placement(t_stack *st, int *item, int chunk_total)
 void	push_chunks_to_b(t_stack *st)
 {
 	int	n;
-	int	item;
-
-	n = 1;
-	if (st->size_a < 101)
-		st->chunk = (st->size_a / 5);
-	if (st->size_a > 400)
-		st->chunk = (st->size_a / 9);
-	while (!is_empty(st, 'a'))
-	{
-		return_index_to_push(st, (st->chunk * n));
-		pop(&item, st, 'a');
-		//rotate_b_for_proper_insert(st, item);
-		push(item, st, 'b');
-		equal_top_bott_placement(st, &item, st->chunk * n);
-
-		if (st->size_b == (st->chunk * n))
-		{
-			n++;
-		}
-	}
-}
-/*
-void	push_swap_to_b(t_stack *st)
-{
-	int	i;
-	int	n;
 	int	top;
+	int	btm;
 	int	item;
-	int	chunk;
 
-	i = 1;
 	n = 1;
-	//chunk = ((st->size_a) / 10) + 10;
-	chunk = ((st->size_a) / 5);
-	printf("chunk:'%d'\tsize_b:'%d'\tsize_a:'%d'\n", chunk, st->size_b, st->size_a);
-	while (!is_empty(st, 'a'))
+	//while (!is_empty(st, 'a'))
+	while (st->size_a > 3)
 	{
-		top = st->size_a - 1;
-		if (st->a[top] < chunk * n)
-		{
-			pop(&item, st, 'a');
-			push(item, st, 'b');
-			top = st->size_b - 1;
-			if (top < (chunk * n) - (chunk / 2))
-			{
-				rotate(st, 'b');
-			}
-			i++;
-		}
-		else
-		{
-			//printf("else: rotate a\n");
-			while (st->a[top] >= chunk * n)
-			{
-				rotate(st, 'a');
-			}
-		}
-		if (i == chunk * n)
-		{
-			printf("chunk:'%d'\tsize_b:'%d'\tsize_a:'%d'\t", chunk, st->size_b, st->size_a);
-			printf("\ti:'%d'\n", i);
-			n++;
-		}
+		next_index_to_push_b(st, &top, &btm);
+		rotate_a_before_push_b(st, top, btm);
+
+		pop(&item, st, 'a');
+		push(item, st, 'b');
+
+		equal_top_bott_placement(st, &item);
+
+		n = (st->size_b / st->chunk) + 1;
+		//if (st->size_b == (st->chunk * n))
+		//	n++;
 	}
+	sort_three_nums(st);
 }
-*/
+
 void	find_max(t_stack *st, int *max, int *index)
 {
 	int	i;
@@ -279,3 +224,5 @@ void	push_swap_back_to_a(t_stack *st)
 		push(item, st, 'a');
 	}
 }
+
+*/

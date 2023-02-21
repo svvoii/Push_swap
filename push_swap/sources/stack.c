@@ -6,7 +6,7 @@
 /*   By: sbocanci <sbocanci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/01 12:23:11 by sbocanci          #+#    #+#             */
-/*   Updated: 2023/02/15 13:48:50 by sbocanci         ###   ########.fr       */
+/*   Updated: 2023/02/21 19:28:22 by sbocanci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,10 @@ void	atoi_str_to_stack(char **str, t_stack *st)
 		size++;
 	}
 	st->size_a = size;
+	if (size < 300)
+		st->chunk = (size / 4);
+	else if (size >= 300)
+		st->chunk = (size / 9);
 }
 
 long	ft_atoi(char *str, t_stack *stack)

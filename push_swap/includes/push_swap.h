@@ -6,7 +6,7 @@
 /*   By: sbocanci <sbocanci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 14:51:54 by sbocanci          #+#    #+#             */
-/*   Updated: 2023/02/20 18:17:14 by sbocanci         ###   ########.fr       */
+/*   Updated: 2023/02/21 16:41:05 by sbocanci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,16 +50,30 @@ void	sort_three_nums(t_stack *st);
 void	find_lowest_and_swap_or_rr(t_stack *st, char name, int i);
 void	search_index_to_insert_b(t_stack *st, int value);
 void	rotate_to_set_in_order_b(t_stack *st, int n);
-// sort_push_swap.c
+// chunk_sort.c
 void	indexing(t_stack *st);
 void	merge_sort(int *arr, int start, int end);
+
 void	push_chunks_to_b(t_stack *st);
-void	rotate_b_for_proper_insert(t_stack *st, int item);
-void	next_index_to_push(t_stack *st, int *tmp1, int *tmp2);
-void	push_swap_to_b(t_stack *st);
+
 void	find_max(t_stack *st, int *max, int *index);
 void	push_swap_back_to_a(t_stack *st);
 
+// sort_push_swap.c
+/*
+void	indexing(t_stack *st);
+void	merge_sort(int *arr, int start, int end);
+void	push_chunks_to_b(t_stack *st);
+
+void	next_index_to_push_b(t_stack *st, int *from_top, int *from_btm);
+void	rotate_a_before_push_b(t_stack *st, int tmp1, int tmp2);
+void	equal_top_bott_placement(t_stack *st, int *item);
+
+void	rotate_b_for_proper_insert(t_stack *st, int item);
+
+void	find_max(t_stack *st, int *max, int *index);
+void	push_swap_back_to_a(t_stack *st);
+*/
 char	**ft_split(char const *s, char c);
 size_t	ft_strlen(const char *str);
 

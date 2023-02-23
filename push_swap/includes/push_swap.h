@@ -6,7 +6,7 @@
 /*   By: sbocanci <sbocanci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 14:51:54 by sbocanci          #+#    #+#             */
-/*   Updated: 2023/02/21 16:41:05 by sbocanci         ###   ########.fr       */
+/*   Updated: 2023/02/23 12:59:53 by sbocanci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,13 @@ void	find_lowest_and_swap_or_rr(t_stack *st, char name, int i);
 void	search_index_to_insert_b(t_stack *st, int value);
 void	rotate_to_set_in_order_b(t_stack *st, int n);
 // chunk_sort.c
+int		is_max(t_stack *st, int item);
+int 	is_min(t_stack *st, int item);
+int		find_index(t_stack *st, char name, int item);
+int		find_place_to_insert_b(t_stack *st, int item);
+int		calc_rotations(t_stack *st);
+void	calc_and_push_to_b(t_stack *st);
+
 void	indexing(t_stack *st);
 void	merge_sort(int *arr, int start, int end);
 
@@ -58,6 +65,15 @@ void	push_chunks_to_b(t_stack *st);
 
 void	find_max(t_stack *st, int *max, int *index);
 void	push_swap_back_to_a(t_stack *st);
+// calc_moves.c
+int	case_ra_rb(t_stack *st, int item);
+int	case_rra_rrb(t_stack *st, int item);
+int	case_rra_rb(t_stack *st, int item);
+int	case_ra_rrb(t_stack *st, int item);
+int	ra_rb(t_stack *st, int item);
+int	ra_rrb(t_stack *st, int item);
+int	rra_rrb(t_stack *st, int item);
+int	rra_rb(t_stack *st, int item);
 
 // sort_push_swap.c
 /*

@@ -6,7 +6,7 @@
 /*   By: sbocanci <sbocanci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 14:51:54 by sbocanci          #+#    #+#             */
-/*   Updated: 2023/02/23 12:59:53 by sbocanci         ###   ########.fr       */
+/*   Updated: 2023/02/24 11:31:21 by sbocanci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void	search_index_to_insert_b(t_stack *st, int value);
 void	rotate_to_set_in_order_b(t_stack *st, int n);
 // chunk_sort.c
 int		is_max(t_stack *st, int item);
-int 	is_min(t_stack *st, int item);
+int 	is_min(t_stack *st, char name, int item);
 int		find_index(t_stack *st, char name, int item);
 int		find_place_to_insert_b(t_stack *st, int item);
 int		calc_rotations(t_stack *st);
@@ -62,6 +62,10 @@ void	indexing(t_stack *st);
 void	merge_sort(int *arr, int start, int end);
 
 void	push_chunks_to_b(t_stack *st);
+
+void	min_index(t_stack *st, char name, int *i);
+int		condition_to_insert(t_stack *st, int item);
+void	smart_push_back_to_a(t_stack *st);
 
 void	find_max(t_stack *st, int *max, int *index);
 void	push_swap_back_to_a(t_stack *st);

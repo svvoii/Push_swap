@@ -6,7 +6,7 @@
 /*   By: sbocanci <sbocanci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 14:48:21 by sbocanci          #+#    #+#             */
-/*   Updated: 2023/02/23 16:41:07 by sbocanci         ###   ########.fr       */
+/*   Updated: 2023/02/24 12:34:08 by sbocanci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,17 +92,18 @@ int	main(int ac, char **av)
 	else
 	{
 		indexing(stack);
-		print_array(stack->a, stack->size_a);
+		//print_array(stack->a, stack->size_a);
 		push_chunks_to_b(stack);
 		//calc_and_push_to_b(stack);
-
+/*
 		printf("a: '");
 		print_array(stack->a, stack->size_a);
 		printf("b: '");
 		print_array(stack->b, stack->size_b);
-
-		push_swap_back_to_a(stack);
-		print_array(stack->a, stack->size_a);
+*/
+		smart_push_back_to_a(stack);
+		//push_swap_back_to_a(stack);
+		//print_array(stack->a, stack->size_a);
 	}
 	//print_array(stack->a, stack->size_a);
 	//printf("count: '%d'\n", stack->count);

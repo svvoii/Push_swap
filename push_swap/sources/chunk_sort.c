@@ -6,7 +6,7 @@
 /*   By: sbocanci <sbocanci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 14:48:21 by sbocanci          #+#    #+#             */
-/*   Updated: 2023/02/23 17:20:43 by sbocanci         ###   ########.fr       */
+/*   Updated: 2023/02/24 13:01:36 by sbocanci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,15 @@ void	find_max(t_stack *st, int *max, int *index);
 void	push_swap_back_to_a(t_stack *st);
 
 int		is_max(t_stack *st, int item);
-int 	is_min(t_stack *st, int item);
+int 	is_min(t_stack *st, char name, int item);
 int		find_index(t_stack *st, char name, int item);
 int		find_place_to_insert_b(t_stack *st, int item);
 int		calc_rotations(t_stack *st);
 void	calc_and_push_to_b(t_stack *st);
+
+void	min_index(t_stack *st, char name, int *i);
+int		condition_to_insert(t_stack *st, int item);
+void	smart_push_back_to_a(t_stack *st);
 
 int	is_max(t_stack *st, int item)
 {
@@ -210,35 +214,119 @@ void	push_chunks_to_b(t_stack *st)
 	sort_three_nums(st);
 }
 
+void	calc_moves_to_push_from_b(t_stack *st, int *moves)
+{
+	int	i;
+	int	j;
+	int	item;
+
+	item = st->size_b;
+	while (--item >= 0)
+	{
+		i = 0;
+		while (st->b[item] > st->a[st->size_a - 1 - i])
+		{
+			i++;
+		}
+		moves[item] = i;
+	}
+}
+
+void	min_index(t_stack *st, char name, int *i)
+{
+	int	top;
+
+	*i = 0;
+	if (name == 'a')
+	{
+		top = st->size_a - 1;
+		while (!is_min(st, 'a', st->a[top - *i]))
+			*i += 1;
+	}
+	else if (name == 'b')
+	{
+		top = st->size_b - 1;
+		while (!is_min(st, 'b', st->b[top - *i]))
+			*i += 1;
+	}
+	//return (i);
+}
+
+int	condition_to_insert(t_stack *st, int item)
+{
+	if (item < st->a[st->size_a - 1] && item > st->a[0])
+		return (1);
+	return (0);
+}
+
+void	bring_min_to_top(t_stack *st)
+{
+	int	i;
+
+	min_index(st, 'a', &i);
+	if (i <= st->size_a / 2)
+	{
+		while (i--)
+			rotate(st, 'a');
+	}
+	else
+	{
+		i = st->size_a - i;
+		while (i--)
+			reverse_rotate(st, 'a');
+	}
+}
+
 void	smart_push_back_to_a(t_stack *st)
 {
 	int	i;
-	int	a;
-	int	b;
+	int	top_a;
+	int	top_b;
+	int	item;
 
+	//printf("a: '");
+	//print_array(st->a, st->size_a);
 	while (!is_empty(st, 'b'))
 	{
-		a = st->size_a - 1;
-		b = st->size_b - 1;
-		if (is_min(st, 'a', st->b[b]))
+		top_a = st->size_a - 1;
+		top_b = st->size_b - 1;
+		// ITEM is MIN in A
+		if (is_min(st, 'a', st->b[top_b]))
 		{
-			if (st->b[b] < st->a[a])
-			{
-				pop(&item, st, 'b');
-				push(item, st, 'a');
-			}
-			else
-			{
-				while (st->b[b - i])
-			}
+			//printf("TOP B is MIN in A\n");
+			bring_min_to_top(st);
 		}
-		else
+		else if (st->b[top_b] > st->a[top_a])
 		{
-			// condition where item is not the minimum 
-			// need to rotate untill the following condition to insert
-			//if (b_top < a_top && b_top > a_bottom)
+			//printf("TOP B > TOP A\n");
+			while (!condition_to_insert(st, st->b[top_b]))
+				rotate(st, 'a');
+/*
+			i = 0; // the amount of rotations for a
+			while (st->b[top_b] > st->a[top_a - i])
+				i++;
+			//printf("\ti:'%d'\n", i);
+			while (i-- > 0)
+				rotate(st, 'a');
+*/
 		}
+		else if (st->b[top_b] < st->a[top_a])
+		{
+			//printf("TOP B < TOP A\n");
+			//print_array(st->a, st->size_a);
+			while (!condition_to_insert(st, st->b[top_b]))
+				reverse_rotate(st, 'a');
+		}
+		pop(&item, st, 'b');
+		push(item, st, 'a');
+		/*
+		printf("a: '");
+		print_array(st->a, st->size_a);
+		printf("b: '");
+		print_array(st->b, st->size_b);
+		*/
 	}
+	bring_min_to_top(st);
 }
 
 void	push_swap_back_to_a(t_stack *st)

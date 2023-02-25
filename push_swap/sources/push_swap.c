@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   push_swap.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sbocanci <sbocanci@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sv <sv@student.42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 14:48:21 by sbocanci          #+#    #+#             */
-/*   Updated: 2023/02/24 12:34:08 by sbocanci         ###   ########.fr       */
+/*   Updated: 2023/02/25 15:06:00 by sv               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ int		valid_argv(int ac, char **av);
 int		unique_values(int *st, int size);
 int		sorted(t_stack *st);
 void	ft_quit(t_stack *st, int err);
+
+void	print_array(int *arr, int size);
 
 void	print_av(char **av, int ac)
 {

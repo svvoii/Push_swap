@@ -3,15 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   calc_moves.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sbocanci <sbocanci@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sv <sv@student.42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 14:48:21 by sbocanci          #+#    #+#             */
-/*   Updated: 2023/02/23 15:07:37 by sbocanci         ###   ########.fr       */
+/*   Updated: 2023/02/25 13:58:49 by sv               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/push_swap.h"
-
+/*
 int	case_ra_rb(t_stack *st, int item);
 int	case_rra_rrb(t_stack *st, int item);
 int	case_rra_rb(t_stack *st, int item);
@@ -129,3 +129,4 @@ int	rra_rb(t_stack *st, int item)
 		rotate(st, 'b');
 	return (-1);
 }
+*/

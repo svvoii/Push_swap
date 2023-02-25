@@ -3,15 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   chunk_sort.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sbocanci <sbocanci@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sv <sv@student.42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 14:48:21 by sbocanci          #+#    #+#             */
-/*   Updated: 2023/02/24 13:01:36 by sbocanci         ###   ########.fr       */
+/*   Updated: 2023/02/25 13:52:22 by sv               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/push_swap.h"
-
+/*
 void	indexing(t_stack *st);
 void	push_chunks_to_b(t_stack *st);
 void	find_max(t_stack *st, int *max, int *index);
@@ -259,76 +259,6 @@ int	condition_to_insert(t_stack *st, int item)
 	return (0);
 }
 
-void	bring_min_to_top(t_stack *st)
-{
-	int	i;
-
-	min_index(st, 'a', &i);
-	if (i <= st->size_a / 2)
-	{
-		while (i--)
-			rotate(st, 'a');
-	}
-	else
-	{
-		i = st->size_a - i;
-		while (i--)
-			reverse_rotate(st, 'a');
-	}
-}
-
-void	smart_push_back_to_a(t_stack *st)
-{
-	int	i;
-	int	top_a;
-	int	top_b;
-	int	item;
-
-	//printf("a: '");
-	//print_array(st->a, st->size_a);
-	while (!is_empty(st, 'b'))
-	{
-		top_a = st->size_a - 1;
-		top_b = st->size_b - 1;
-		// ITEM is MIN in A
-		if (is_min(st, 'a', st->b[top_b]))
-		{
-			//printf("TOP B is MIN in A\n");
-			bring_min_to_top(st);
-		}
-		else if (st->b[top_b] > st->a[top_a])
-		{
-			//printf("TOP B > TOP A\n");
-			while (!condition_to_insert(st, st->b[top_b]))
-				rotate(st, 'a');
-/*
-			i = 0; // the amount of rotations for a
-			while (st->b[top_b] > st->a[top_a - i])
-				i++;
-			//printf("\ti:'%d'\n", i);
-			while (i-- > 0)
-				rotate(st, 'a');
-*/
-		}
-		else if (st->b[top_b] < st->a[top_a])
-		{
-			//printf("TOP B < TOP A\n");
-			//print_array(st->a, st->size_a);
-			while (!condition_to_insert(st, st->b[top_b]))
-				reverse_rotate(st, 'a');
-		}
-		pop(&item, st, 'b');
-		push(item, st, 'a');
-		/*
-		printf("a: '");
-		print_array(st->a, st->size_a);
-		printf("b: '");
-		print_array(st->b, st->size_b);
-		*/
-	}
-	bring_min_to_top(st);
-}
-
 void	push_swap_back_to_a(t_stack *st)
 {
 	int	max;
@@ -398,3 +328,4 @@ void	indexing(t_stack *st)
 		}
 	}
 }
+*/

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   push_swap.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sbocanci <sbocanci@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sv <sv@student.42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/28 14:51:54 by sbocanci          #+#    #+#             */
-/*   Updated: 2023/02/24 11:31:21 by sbocanci         ###   ########.fr       */
+/*   Created: 2023/02/25 13:54:34 by sv                #+#    #+#             */
+/*   Updated: 2023/02/25 15:06:16 by sv               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@ int		valid_argv(int ac, char **av);
 int		unique_values(int *st, int size);
 int		sorted(t_stack *st);
 void	ft_quit(t_stack *st, int err);
+
+void	print_array(int *arr, int size);
 // stack.c
 t_stack	*create_stacks_a_b(int capacity);
 int		is_empty(t_stack *stack, char name);
@@ -50,6 +52,7 @@ void	sort_three_nums(t_stack *st);
 void	find_lowest_and_swap_or_rr(t_stack *st, char name, int i);
 void	search_index_to_insert_b(t_stack *st, int value);
 void	rotate_to_set_in_order_b(t_stack *st, int n);
+/*
 // chunk_sort.c
 int		is_max(t_stack *st, int item);
 int 	is_min(t_stack *st, char name, int item);
@@ -78,24 +81,20 @@ int	ra_rb(t_stack *st, int item);
 int	ra_rrb(t_stack *st, int item);
 int	rra_rrb(t_stack *st, int item);
 int	rra_rb(t_stack *st, int item);
-
-// sort_push_swap.c
-/*
-void	indexing(t_stack *st);
-void	merge_sort(int *arr, int start, int end);
-void	push_chunks_to_b(t_stack *st);
-
-void	next_index_to_push_b(t_stack *st, int *from_top, int *from_btm);
-void	rotate_a_before_push_b(t_stack *st, int tmp1, int tmp2);
-void	equal_top_bott_placement(t_stack *st, int *item);
-
-void	rotate_b_for_proper_insert(t_stack *st, int item);
-
-void	find_max(t_stack *st, int *max, int *index);
-void	push_swap_back_to_a(t_stack *st);
 */
-char	**ft_split(char const *s, char c);
-size_t	ft_strlen(const char *str);
+// sort_push_swap.c
+void	indexing(t_stack *st);
+void	push_chunks_to_b(t_stack *st);
+void	smart_push_back_to_a(t_stack *st);
+void	clac_r_in_a_for_each_b(t_stack *st, int *moves);
+int 	is_min_in_a(t_stack *st, int item);
+int		min_index(t_stack *st);
+int		find_bigger(t_stack *st, int item);
+int		find_smaller(t_stack *st, int item);
+void	spin(t_stack *st, int spin_a, int spin_b, int direction);
 
-void	print_array(int *arr, int size);
+void	merge_sort(int *arr, int start, int end);
+size_t	ft_strlen(const char *str);
+char	**ft_split(char const *s, char c);
+
 #endif

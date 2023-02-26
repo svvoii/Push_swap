@@ -6,7 +6,7 @@
 /*   By: sv <sv@student.42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 13:54:34 by sv                #+#    #+#             */
-/*   Updated: 2023/02/25 15:06:16 by sv               ###   ########.fr       */
+/*   Updated: 2023/02/26 11:41:33 by sv               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,8 @@ void	indexing(t_stack *st);
 void	push_chunks_to_b(t_stack *st);
 void	smart_push_back_to_a(t_stack *st);
 void	clac_r_in_a_for_each_b(t_stack *st, int *moves);
+void	prepare_for_min_spin(t_stack *st, int *mov, int *spin_a, int *spin_b, int *direction);
+void	direction_to_spin(t_stack *st, char name, int direction);
 int 	is_min_in_a(t_stack *st, int item);
 int		min_index(t_stack *st);
 int		find_bigger(t_stack *st, int item);

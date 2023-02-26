@@ -16,6 +16,8 @@ void	indexing(t_stack *st);
 void	push_chunks_to_b(t_stack *st);
 void	smart_push_back_to_a(t_stack *st);
 void	clac_r_in_a_for_each_b(t_stack *st, int *moves);
+void	prepare_for_min_spin(t_stack *st, int *mov, int *spin_a, int *spin_b, int *direction);
+void	direction_to_spin(t_stack *st, char name, int direction);
 int 	is_min_in_a(t_stack *st, int item);
 int		min_index(t_stack *st);
 int		find_bigger(t_stack *st, int item);
@@ -87,8 +89,6 @@ void	push_chunks_to_b(t_stack *st)
 
 void	smart_push_back_to_a(t_stack *st)
 {
-	int	i;
-	int	min;
 	int	item;
 	int	spin_a;
 	int	spin_b;
@@ -98,36 +98,19 @@ void	smart_push_back_to_a(t_stack *st)
 	while (!is_empty(st, 'b'))
 	{
 		clac_r_in_a_for_each_b(st, moves);
-		i = -1;
-		min = moves[0];
-		i = -1;
-		while (++i < st->size_b)
-		{
-			if (moves[i] <= min)
-			{
-				min = moves[i];
-				if (i <= moves[i] && i <= st->size_b / 2)
-				{
-					spin_a = moves[i];
-					spin_b = i;
-					direction = 1; // for rotate
-				}
-				else if (st->size_b - i < st->size_a - moves[i] && i > st->size_b / 2)
-				{
-					spin_a = st->size_a - moves[i];
-					spin_b = st->size_b - i;
-					direction = -1; // for reverse rotate
-				}
-			}
-		}
-		printf("\tspin_a:'%d' .. spin_b:'%d' >> '%d'\n", spin_a, spin_b, direction);
+		
+		spin_a = 0;
+		spin_b = 0;
+		direction = 0;
+		prepare_for_min_spin(st, moves, &spin_a, &spin_b, &direction);
 		//exit (0);
 		printf("a: '");
 		print_array(st->a, st->size_a);
 		printf("b: '");
 		print_array(st->b, st->size_b);
-		if (min > 0)
-			spin(st, spin_a, spin_b, direction);
+
+		spin(st, spin_a, spin_b, direction);
+
 		pop(&item, st, 'b');
 		push(item, st, 'a');
 		printf("a: '");
@@ -136,6 +119,37 @@ void	smart_push_back_to_a(t_stack *st)
 		print_array(st->b, st->size_b);
 	}
 	bring_min_to_top(st);
+}
+
+void	prepare_for_min_spin(t_stack *st, int *mov, int *spin_a, int *spin_b, int *direction)
+{
+	int	i;
+	int	n;
+	int	min;
+
+	n = 0;
+	min = mov[n];
+	while (++n < st->size_b)
+	{
+		if (mov[n] < min)
+		{
+			min = mov[n];
+			i = n;
+		}
+	}
+	if (i && i <= st->size_b / 2)
+	{
+		*spin_a = mov[i];
+		*spin_b = i;
+		*direction = 1;
+	}
+	else if (i < st->size_b && i > st->size_b / 2)
+	{
+		*spin_a = st->size_a - mov[i];
+		*spin_b = st->size_b - i;
+		*direction = -1;
+	}
+	printf("\t[%d] i:'%d' spin_a:'%d' .. spin_b:'%d' >> '%d'\n", st->b[st->size_b - 1 - i], i, *spin_a, *spin_b, *direction);
 }
 
 void	clac_r_in_a_for_each_b(t_stack *st, int *moves)
@@ -209,20 +223,30 @@ int	find_smaller(t_stack *st, int item)
 
 void	spin(t_stack *st, int spin_a, int spin_b, int direction)
 {
+	printf("\t\t spin_a:'%d' && spin_b:'%d' >> '%d'\n", spin_a, spin_b, direction);
+	if (spin_a && spin_b)
+	{
+		while (spin_b-- > 0)
+		{
+			direction_to_spin(st, 'r', direction);
+			spin_a--;
+		}
+	}
+	while (spin_b-- > 0)
+	{
+		direction_to_spin(st, 'b', direction);
+		spin_a--;
+	}
+	while (spin_a-- > 0)
+		direction_to_spin(st, 'a', direction);
+}
+
+void	direction_to_spin(t_stack *st, char name, int direction)
+{
 	if (direction > 0)
-	{
-		while (spin_b-- > 0)
-			rotate(st, 'r');
-		while (spin_a-- > 0)
-			rotate(st, 'a');
-	}
+		rotate(st, name);
 	else if (direction < 0)
-	{
-		while (spin_b-- > 0)
-			reverse_rotate(st, 'r');
-		while (spin_a-- > 0)
-			reverse_rotate(st, 'a');
-	}
+		reverse_rotate(st, name);
 }
 
 void	bring_min_to_top(t_stack *st)

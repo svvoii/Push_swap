@@ -6,7 +6,7 @@
 /*   By: sbocanci <sbocanci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 13:54:34 by sv                #+#    #+#             */
-/*   Updated: 2023/02/28 17:21:14 by sbocanci         ###   ########.fr       */
+/*   Updated: 2023/03/01 16:08:47 by sbocanci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,23 +29,26 @@ typedef struct s_stack
 }	t_stack;
 
 // push_swap.c (main)
-int		valid_argv(int ac, char **av);
-int		unique_values(int *st, int size);
+char	**copy_to_2d_str_arr(int ac, char **av, int *count);
+int		unique_values(t_stack *st);
 int		sorted(t_stack *st);
-void	ft_quit(t_stack *st, int err);
+void	free_and_quit(t_stack *st, char **str, int ac, int err);
+//void	ft_quit(t_stack *st, int err);
+//void	free_str(char **str, int size, int ac);
 
 void	print_array(int *arr, int size);
 // stack.c
-t_stack	*create_stacks_a_b(int capacity);
-int		is_empty(t_stack *stack, char name);
-void	atoi_str_to_stack(char **av, t_stack *stack);
-long	ft_atoi(char *str, t_stack *stack);
+t_stack	*create_stacks_a_b(t_stack *st, int capacity);
+//t_stack	*create_stacks_a_b(int capacity);
+void	atoi_str_to_stack(char **av, t_stack *stack, int ac);
+long	ft_atoi(char **str, char *s, t_stack *st, int ac);
 // stack_manipulate.c
 int		push(int item, t_stack *st, char name);
 int		pop(int *item, t_stack *stack, char name);
 void	swap(t_stack *st, int a, int b, char name);
 void	rotate(t_stack *st, char name);
 void	reverse_rotate(t_stack *st, char name);
+//int		is_empty(t_stack *stack, char name);
 // sort_small_stack.c
 void	sort_small_stack(t_stack *st);
 void	sort_three_nums(t_stack *st);

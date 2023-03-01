@@ -55,22 +55,49 @@ void	indexing(t_stack *st)
 	}
 }
 
+/*
 void	push_chunks_to_b(t_stack *st)
 {
 	int	n;
 	int	top;
-	int	max;
+	int	item;
+
+	n = (st->size_b / st->chunk) + 1;
+	while (st->size_a > 3)
+	{
+		top = st->a[st->size_a - 1];
+		//printf("top:'%d' chunk:'%d' size:'%d'\n", top, (st->capacity - (st->chunk * n)), st->capacity);
+		if (top < (st->capacity - (st->chunk * n)) || top >= st->capacity - 3)
+			rotate(st, 'a');
+		else
+		{
+			pop(&item, st, 'a');
+			push(item, st, 'b');
+			top = st->a[st->size_a - 1];
+			if (item < (st->capacity - (st->chunk * n)) + (st->chunk / 2))
+			{
+				rotate(st, 'r');
+			}
+		}
+		n = ((st->size_b + 3) / st->chunk) + 1;
+	}
+	sort_three_nums(st);
+}
+*/
+void	push_chunks_to_b(t_stack *st)
+{
+	int	n;
+	int	top;
 	int	item;
 
 	//n = (max / st->chunk);
 	//while (!is_empty(st, 'a'))
-	max = st->capacity - 1;
 	n = (st->size_b / st->chunk) + 1;
 	while (st->size_a > 3)
 	{
 		top = st->a[st->size_a - 1];
 		//printf("\ta[%d]:'%d' s_b:'%d' s_a:'%d' n:'%d' chunk * n:'%d' \n", st->size_a - 1, top, st->size_b, st->size_a, n, st->chunk * n);
-		if (top > st->chunk * n || top == max || top == max - 1 || top == max - 2)
+		if (top > st->chunk * n || top >= st->capacity - 3)
 			rotate(st, 'a');
 		else if (top <= st->chunk * n)
 		{
@@ -91,13 +118,18 @@ void	push_chunks_to_b(t_stack *st)
 	}
 	sort_three_nums(st);
 }
-
 void	smart_push_back_to_a(t_stack *st)
 {
 	int	item;
 	int	ra[st->capacity];
 
-	while (!is_empty(st, 'b'))
+	//while (!is_empty(st, 'b'))
+	while (st->size_a <= 2)
+	{
+		pop(&item, st, 'b');
+		push(item, st, 'a');
+	}
+	while (st->size_b)
 	{
 		clac_r_in_a_for_each_b(st, ra);
 		
@@ -148,7 +180,7 @@ int	direction(int index, int size)
 {
 	if (index <= size / 2)
 		return (1);
-	else if (index > size / 2)
+	else
 		return (-1);
 }
 
@@ -156,7 +188,7 @@ int	ra_vs_rra(int index, int size_a)
 {
 	if (index <= size_a / 2) // ra
 		return (index);
-	else if (index > size_a / 2) // rra
+	else // rra
 		return (size_a - index);
 }
 
@@ -164,15 +196,15 @@ int	rb_vs_rrb(int index, int size_b)
 {
 	if (index <= size_b / 2) // rb
 		return (index);
-	else if (index > size_b / 2) // rrb
+	else // rrb
 		return (size_b - index);
 }
 
 void	min_a_vs_min_b(int *ra, int size, int *min_i, int *max_i)
 {
-	int	i;
-	int	min;
-	int	max;
+	//int	i;
+	//int	min;
+	//int	max;
 
 	*min_i = 0;
 	while (!is_min(ra, size, ra[*min_i]))
@@ -180,6 +212,7 @@ void	min_a_vs_min_b(int *ra, int size, int *min_i, int *max_i)
 	*max_i = 0;
 	while (!is_max(ra, size, ra[*max_i]))
 		*max_i += 1;
+	/*
 	if (*max_i < *min_i)
 	{
 		i = *min_i;
@@ -196,6 +229,7 @@ void	min_a_vs_min_b(int *ra, int size, int *min_i, int *max_i)
 			if (ra[i] == max)
 				*max_i = i;
 	}
+	*/
 	//printf(" min_i ra[%d]:'%d' max_i ra[%d]:'%d'  size:'%d'\n", *min_i, ra[*min_i], *max_i, ra[*max_i], size);
 }
 

@@ -36,7 +36,7 @@ void	sort_small_stack(t_stack *st)
 		}
 	}
 	rotate_to_set_in_order_b(st, 0);
-	while (!is_empty(st, 'b'))
+	while (st->size_b)
 	{
 		pop(&item, st, 'b');
 		push(item, st, 'a');

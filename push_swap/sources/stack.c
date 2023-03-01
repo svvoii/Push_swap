@@ -6,33 +6,22 @@
 /*   By: sbocanci <sbocanci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/01 12:23:11 by sbocanci          #+#    #+#             */
-/*   Updated: 2023/02/28 18:38:42 by sbocanci         ###   ########.fr       */
+/*   Updated: 2023/03/01 19:08:37 by sbocanci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/push_swap.h"
 
 // Allocating memory for a structure and for int arr of given capacity
-t_stack	*create_stacks_a_b(int capacity)
+t_stack	*create_stacks_a_b(t_stack *st, int capacity)
 {
-	t_stack *st;
-
-	if (capacity <= 0)
-		return (NULL);
-	st = malloc(sizeof(t_stack));
-	if (!st)
-		return (NULL);
 	st->a = malloc(sizeof(int) * capacity);
 	if (!st->a)
-	{
-		free(st);
 		return (NULL);
-	}
 	st->b = malloc(sizeof(int) * capacity);
 	if (!st->b)
 	{
 		free(st->a);
-		free(st);
 		return (NULL);
 	}
 	st->capacity = capacity;
@@ -42,18 +31,8 @@ t_stack	*create_stacks_a_b(int capacity)
 	return (st);
 }
 
-// Returns 1 (true) if the stack is empty.
-int	is_empty(t_stack *stack, char name)
-{
-	if (name == 'a')
-		return (stack->size_a == 0);
-	else if (name == 'b')
-		return (stack->size_b == 0);
-	return (0);
-}
-
 // Following two f() convert chars from av to int and store in stack a
-void	atoi_str_to_stack(char **str, t_stack *st)
+void	atoi_str_to_stack(char **str, t_stack *st, int ac)
 {
 	long	num;
 	int		size;
@@ -63,21 +42,20 @@ void	atoi_str_to_stack(char **str, t_stack *st)
 	i = st->capacity;
 	while (--i >= 0)
 	{
-		num = ft_atoi(str[i], st);
+		num = ft_atoi(str, str[i], st, ac);
 		if (num > 2147483647 || num < -2147483648)
-			ft_quit(st, 1);
-		//st->b[size] = 0;
+			free_and_quit(st, str, ac, 1);
 		st->a[size] = (int)num;
 		size++;
 	}
 	st->size_a = size;
-	if (size < 300)
-		st->chunk = (size / 3);
-	else if (size >= 300)
-		st->chunk = (size / 9);
+	if (st->size_a < 200)
+		st->chunk = (st->size_a / 6);
+	else if (st->size_a >= 300)
+		st->chunk = (st->size_a / 8);
 }
 
-long	ft_atoi(char *str, t_stack *stack)
+long	ft_atoi(char **str, char *s, t_stack *st, int ac)
 {
 	long	num;
 	int		sign;
@@ -86,21 +64,21 @@ long	ft_atoi(char *str, t_stack *stack)
 	i = 0;
 	sign = 1;
 	num = 0;
-	while (str[i] == ' ' || str[i] == '\t' || str[i] == '\n'
-		|| str[i] == '\v' || str[i] == '\f' || str[i] == '\r')
+	while (s[i] == ' ' || s[i] == '\t' || s[i] == '\n'
+		|| s[i] == '\v' || s[i] == '\f' || s[i] == '\r')
 		i++;
-	if (str[i] == '-' || str[i] == '+')
+	if (s[i] == '-' || s[i] == '+')
 	{
-		if (str[i] == '-')
+		if (s[i] == '-')
 			sign = -1;
-		if (str[i + 1] < '0' || str[i + 1] > '9')
-			ft_quit(stack, 1);
 		i++;
 	}
-	while (str[i] >= '0' && str[i] <= '9')
+	while (s[i] >= '0' && s[i] <= '9')
 	{
-		num = (num * 10) + ((long)str[i] - '0');
+		num = (num * 10) + ((long)s[i] - '0');
 		i++;
 	}
+	if (s[i] && (s[i] < '0' || s[i] > '9'))
+		free_and_quit(st, str, ac, 1); // free stack and str print err
 	return (num * sign);
 }

@@ -6,7 +6,7 @@
 /*   By: sbocanci <sbocanci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/01 15:41:24 by sbocanci          #+#    #+#             */
-/*   Updated: 2023/02/20 17:43:06 by sbocanci         ###   ########.fr       */
+/*   Updated: 2023/03/01 16:08:01 by sbocanci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,19 +40,21 @@ int	push(int item, t_stack *st, char name)
 }
 
 // Decreases the size ofthe array by 1
-int	pop(int *item, t_stack *stack, char name)
+int	pop(int *item, t_stack *st, char name)
 {
-	if (is_empty(stack, name))
-		return (0);
 	if (name == 'a')
 	{
-		stack->size_a--;
-		*item = stack->a[stack->size_a];
+		if (!st->size_a)
+			return (0);
+		st->size_a--;
+		*item = st->a[st->size_a];
 	}
 	else if (name == 'b')
 	{
-		stack->size_b--;
-		*item = stack->b[stack->size_b];
+		if (!st->size_a)
+			return (0);
+		st->size_b--;
+		*item = st->b[st->size_b];
 	}
 	return (1);
 }
@@ -132,3 +134,14 @@ void	reverse_rotate(t_stack *st, char name)
 		printf("rr%c\n", name);
 	st->count++;
 }
+
+/*// Returns 1 (true) if the stack is empty.
+int	is_empty(t_stack *stack, char name)
+{
+	if (name == 'a')
+		return (stack->size_a == 0);
+	else if (name == 'b')
+		return (stack->size_b == 0);
+	return (0);
+}
+*/

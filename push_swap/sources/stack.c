@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   stack.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sbocanci <sbocanci@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sv <sv@student.42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/01 12:23:11 by sbocanci          #+#    #+#             */
-/*   Updated: 2023/03/01 19:08:37 by sbocanci         ###   ########.fr       */
+/*   Updated: 2023/03/02 14:33:32 by sv               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,10 +49,9 @@ void	atoi_str_to_stack(char **str, t_stack *st, int ac)
 		size++;
 	}
 	st->size_a = size;
-	if (st->size_a < 200)
-		st->chunk = (st->size_a / 6);
-	else if (st->size_a >= 300)
-		st->chunk = (st->size_a / 8);
+	st->chunk = st->size_a;
+	if (st->size_a > 20)
+		st->chunk = (st->size_a / 3);
 }
 
 long	ft_atoi(char **str, char *s, t_stack *st, int ac)

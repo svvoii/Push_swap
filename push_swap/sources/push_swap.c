@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   push_swap.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sbocanci <sbocanci@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sv <sv@student.42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 14:48:21 by sbocanci          #+#    #+#             */
-/*   Updated: 2023/03/01 15:36:41 by sbocanci         ###   ########.fr       */
+/*   Updated: 2023/03/02 14:25:11 by sv               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	main(int ac, char **av)
 		free_and_quit(st, str, ac, 1); // free stack and str print err
 	if (sorted(st))
 		free_and_quit(st, str, ac, 0); // free stack and str
-	if (count < 20)
+	if (count > 2000)
 		sort_small_stack(st);
 	else
 	{
@@ -42,7 +42,7 @@ int	main(int ac, char **av)
 		//print_array(st->a, st->size_a);
 		push_chunks_to_b(st);
 		//calc_and_push_to_b(st);
-		printf("count: '%d'\n", st->count);
+		//printf("count: '%d'\n", st->count);
 		smart_push_back_to_a(st);
 		//push_swap_back_to_a(st);
 	}

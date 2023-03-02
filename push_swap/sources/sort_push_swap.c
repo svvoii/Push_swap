@@ -15,19 +15,16 @@
 void	indexing(t_stack *st);
 void	push_chunks_to_b(t_stack *st);
 void	smart_push_back_to_a(t_stack *st);
-void	clac_r_in_a_for_each_b(t_stack *st, int *ra);
-void	prepare_for_min_spin(t_stack *st, int *ra);
-int		direction(int index, int size);
-int		ra_vs_rra(int index, int size_a);
-int		rb_vs_rrb(int index, int size_b);
-void	min_a_vs_min_b(int *ra, int size, int *min_i, int *max_i);
-void	direction_to_spin(t_stack *st, char name, int i);
-int 	is_min(int *arr, int size, int item);
-int 	is_max(int *arr, int size, int item);
+void	clac_r_in_a_for_each_b(t_stack *st, int *ra, int *rb);
+void	calc_rotations(int *ra, int *rb, int size, int *index);
+int		abs(int n);
+void	spin(t_stack *st, int *ra, int *rb, int i);
+void	rr_ra_rb(t_stack *st, int a, int b);
+void	rrr_rra_rrb(t_stack *st, int a, int b);
 int		min_index(int *arr, int size);
+int 	is_min(int *arr, int size, int item);
 int		find_bigger(t_stack *st, int item);
 int		find_smaller(t_stack *st, int item);
-void	spin(t_stack *st, int spin_a, int a_direction, int spin_b, int b_direction);
 void	bring_min_to_top(t_stack *st);
 
 void	indexing(t_stack *st)
@@ -93,7 +90,7 @@ void	push_chunks_to_b(t_stack *st)
 	//n = (max / st->chunk);
 	//while (!is_empty(st, 'a'))
 	n = (st->size_b / st->chunk) + 1;
-	while (st->size_a > 3)
+	while (st->size_a > 3 && !sorted(st))
 	{
 		top = st->a[st->size_a - 1];
 		//printf("\ta[%d]:'%d' s_b:'%d' s_a:'%d' n:'%d' chunk * n:'%d' \n", st->size_a - 1, top, st->size_b, st->size_a, n, st->chunk * n);
@@ -104,7 +101,7 @@ void	push_chunks_to_b(t_stack *st)
 			pop(&item, st, 'a');
 			push(item, st, 'b');
 			top = st->a[st->size_a - 1];
-			if (item < (st->chunk * n) - (st->chunk / 2))
+			if (st->capacity > 20 && (item < (st->chunk * n) - (st->chunk / 2)))
 			{
 				if (top > st->chunk * n)
 					rotate(st, 'r');
@@ -118,29 +115,22 @@ void	push_chunks_to_b(t_stack *st)
 	}
 	sort_three_nums(st);
 }
+
 void	smart_push_back_to_a(t_stack *st)
 {
 	int	item;
+	int	index;
 	int	ra[st->capacity];
+	int	rb[st->capacity];
 
-	//while (!is_empty(st, 'b'))
-	while (st->size_a <= 2)
-	{
-		pop(&item, st, 'b');
-		push(item, st, 'a');
-	}
 	while (st->size_b)
 	{
-		clac_r_in_a_for_each_b(st, ra);
-		
-		prepare_for_min_spin(st, ra);
-		/*
-		printf("a: '");
-		print_array(st->a, st->size_a);
-		printf("b: '");
-		print_array(st->b, st->size_b);
-		*/
+		clac_r_in_a_for_each_b(st, ra, rb);
 
+		calc_rotations(ra, rb, st->size_b, &index);
+
+		spin(st, ra, rb, index);
+		
 		pop(&item, st, 'b');
 		push(item, st, 'a');
 		/*
@@ -148,11 +138,24 @@ void	smart_push_back_to_a(t_stack *st)
 		print_array(st->a, st->size_a);
 		printf("b: '");
 		print_array(st->b, st->size_b);
+
+		
+		printf("a: '");
+		int i = st->size_a;
+		while (--i >= 0)
+			printf("%d, ", st->a[i]);
+		printf("\n");
+		printf("b: '");
+		i = st->size_b;
+		while (--i >= 0)
+			printf("%d, ", st->b[i]);
+		printf("\n");
 		*/
 	}
 	bring_min_to_top(st);
 }
 
+/*
 void	prepare_for_min_spin(t_stack *st, int *ra)
 {
 	int	min_i;
@@ -175,7 +178,6 @@ void	prepare_for_min_spin(t_stack *st, int *ra)
 			spin(st, ra_vs_rra(ra[min_i], st->size_a), direction(ra[min_i], st->size_a), rb_vs_rrb(min_i, st->size_b), direction(min_i, st->size_b));
 	}
 }
-
 int	direction(int index, int size)
 {
 	if (index <= size / 2)
@@ -199,7 +201,110 @@ int	rb_vs_rrb(int index, int size_b)
 	else // rrb
 		return (size_b - index);
 }
+int		rotations(int *ra, int *rb, int i)
+{
+	if (ra[i] >= 0 && rb[i] >= 0) //both ra rb are (+)
+	{
+		if (ra[i] >= rb[i])
+			return (ra[i]);
+		return (rb[i]);
+	}
+	if (ra[i] < 0 && rb[i] < 0) // both ra rb are (-)
+	{
+		if (ra[i] <= rb[i])
+			return (abs(ra[i]));
+		return (abs(rb[i]));
+	}
+	// ra (+/-) .. rb (+/-)
+	return (abs(ra[i]) + abs(rb[i]));
+}
+*/
 
+void	clac_r_in_a_for_each_b(t_stack *st, int *ra, int *rb)
+{
+	int	i;
+	int	r;
+	int	item;
+
+	i = -1;
+	while (++i < st->size_b)
+	{
+		item = st->b[st->size_b - 1 - i];
+		if (is_min(st->a, st->size_a, item))
+			r = min_index(st->a, st->size_a);
+		else if (item > st->a[st->size_a - 1])
+			r = find_bigger(st, item);
+		else if (item < st->a[st->size_a - 1])
+			r = find_smaller(st, item);
+		if (r <= st->size_a / 2)
+			ra[i] = r;
+		else
+			ra[i] = (st->size_a - r) * -1;
+		if (i <= st->size_b / 2)
+			rb[i] = i;
+		else
+			rb[i] = (st->size_b - i) * -1;
+	}
+/*	
+	printf(" ra[ ");
+	i = -1;
+	while (++i < st->size_b)
+		printf("%d, ", ra[i]);
+	printf("]\n");
+	printf(" rb[ ");
+	i = -1;
+	while (++i < st->size_b)
+		printf("%d, ", rb[i]);
+	printf("]\n");
+*/
+}
+
+void	calc_rotations(int *ra, int *rb, int size, int *index)
+{
+	int i;
+	int	rotations[size];
+
+	i = -1;
+	while (++i < size)
+	{
+		if (ra[i] >= 0 && rb[i] >= 0) //both ra rb are (+)
+		{
+			if (ra[i] >= rb[i])
+				rotations[i] = ra[i];
+			else
+				rotations[i] = rb[i];
+		}
+		else if (ra[i] < 0 && rb[i] < 0) // both ra rb are (-)
+		{
+			if (ra[i] <= rb[i])
+				rotations[i] = abs(ra[i]);
+			else
+				rotations[i] = abs(rb[i]);
+		}
+		else// ra (+/-) .. rb (+/-)
+			rotations[i] = abs(ra[i]) + abs(rb[i]);
+	}
+	*index = 0;
+	while (!is_min(rotations, size, rotations[*index]))
+		*index += 1;
+	/*
+	printf("rt-ns[ ");
+	i = -1;
+	while (++i < size)
+		printf("%d, ", rotations[i]);
+	printf("]\n");
+	printf("index:'%d'\n", *index);
+	*/
+}
+
+int		abs(int n)
+{
+	if (n < 0)
+		return (n * -1);
+	return (n);
+}
+
+/*
 void	min_a_vs_min_b(int *ra, int size, int *min_i, int *max_i)
 {
 	//int	i;
@@ -212,7 +317,6 @@ void	min_a_vs_min_b(int *ra, int size, int *min_i, int *max_i)
 	*max_i = 0;
 	while (!is_max(ra, size, ra[*max_i]))
 		*max_i += 1;
-	/*
 	if (*max_i < *min_i)
 	{
 		i = *min_i;
@@ -229,14 +333,62 @@ void	min_a_vs_min_b(int *ra, int size, int *min_i, int *max_i)
 			if (ra[i] == max)
 				*max_i = i;
 	}
-	*/
-	//printf(" min_i ra[%d]:'%d' max_i ra[%d]:'%d'  size:'%d'\n", *min_i, ra[*min_i], *max_i, ra[*max_i], size);
+	printf(" min_i ra[%d]:'%d' max_i ra[%d]:'%d'  size:'%d'\n", *min_i, ra[*min_i], *max_i, ra[*max_i], size);
+}
+*/
+void	spin(t_stack *st, int *ra, int *rb, int i)
+{
+	if (ra[i] >= 0 && rb[i] >= 0)// rr ra rb
+		rr_ra_rb(st, ra[i], rb[i]);
+	else if (ra[i] < 0 && rb[i] < 0)// rrr rra rrb
+		rrr_rra_rrb(st, abs(ra[i]), abs(rb[i]));
+	else
+	{
+		if (ra[i] >= 0 && rb[i] < 0)// ra and rrb
+		{
+			rr_ra_rb(st, ra[i], 0);
+			rrr_rra_rrb(st, 0, abs(rb[i]));
+		}
+		if (ra[i] < 0 && rb[i] >= 0)// rra and rb
+		{
+			rrr_rra_rrb(st, abs(ra[i]), 0);
+			rr_ra_rb(st, 0, rb[i]);
+		}
+	}
 }
 
+void	rr_ra_rb(t_stack *st, int a, int b)
+{
+	while (a > 0 && b > 0)
+	{
+		rotate(st, 'r');
+		a--;
+		b--;
+	}
+	while (a-- > 0)
+		rotate(st, 'a');
+	while (b-- > 0)
+		rotate(st, 'b');
+}
+
+void	rrr_rra_rrb(t_stack *st, int a, int b)
+{
+	while (a > 0 && b > 0)
+	{
+		reverse_rotate(st, 'r');
+		a--;
+		b--;
+	}
+	while (a-- > 0)
+		reverse_rotate(st, 'a');
+	while (b-- > 0)
+		reverse_rotate(st, 'b');
+}
+/*
 void	spin(t_stack *st, int spin_a, int a_direction, int spin_b, int b_direction)
 {
 	//if ((ra_rra[i] > st->size_a / 2) && (i > st->size_b / 2)) // rra and rrb
-	//printf("\tspin(spin_a:'%d' > '%d' .. spin_b:'%d' > '%d')\n", spin_a, a_direction, spin_b, b_direction);
+	printf("\tspin(spin_a:'%d' > '%d' .. spin_b:'%d' > '%d')\n", spin_a, a_direction, spin_b, b_direction);
 	if (a_direction < 0 && b_direction < 0)
 	{
 		while (spin_b > 0 && spin_a > 0)
@@ -289,39 +441,6 @@ void	direction_to_spin(t_stack *st, char name, int i)
 	else if (i < 0)
 		reverse_rotate(st, name);
 }
-
-void	clac_r_in_a_for_each_b(t_stack *st, int *ra)
-{
-	int	i;
-	int	r;
-	int	item;
-
-	i = -1;
-	while (++i < st->size_b)
-	{
-		item = st->b[st->size_b - 1 - i];
-		if (is_min(st->a, st->size_a, item))
-			r = min_index(st->a, st->size_a);
-		else if (item > st->a[st->size_a - 1])
-			r = find_bigger(st, item);
-		else if (item < st->a[st->size_a - 1])
-			r = find_smaller(st, item);
-		ra[i] = r;
-	}
-	/*
-	printf("  ra[ ");
-	i = -1;
-	while (++i < st->size_b)
-		printf("%d, ", ra[i]);
-	printf("]\n");
-	printf(" rra[ ");
-	i = -1;
-	while (++i < st->size_b)
-		printf("%d, ", st->size_a - ra[i]);
-	printf("]\n");
-	*/
-}
-
 int is_max(int *arr, int size, int item)
 {
 	int	i;
@@ -333,6 +452,17 @@ int is_max(int *arr, int size, int item)
 	return (1);
 }
 
+*/
+int	min_index(int *arr, int size)
+{
+	int	i;
+
+	i = 0;
+	while (!is_min(arr, size, arr[size - 1 - i]))
+		i++;
+	return (i);
+}
+
 int is_min(int *arr, int size, int item)
 {
 	int	i;
@@ -342,16 +472,6 @@ int is_min(int *arr, int size, int item)
 		if (item > arr[i])
 			return (0);
 	return (1);
-}
-
-int	min_index(int *arr, int size)
-{
-	int	i;
-
-	i = 0;
-	while (!is_min(arr, size, arr[size - 1 - i]))
-		i++;
-	return (i);
 }
 
 int	find_bigger(t_stack *st, int item)

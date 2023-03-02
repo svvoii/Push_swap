@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   push_swap.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sbocanci <sbocanci@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sv <sv@student.42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 13:54:34 by sv                #+#    #+#             */
-/*   Updated: 2023/03/01 16:08:47 by sbocanci         ###   ########.fr       */
+/*   Updated: 2023/03/02 13:26:39 by sv               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,19 +89,16 @@ int	rra_rb(t_stack *st, int item);
 void	indexing(t_stack *st);
 void	push_chunks_to_b(t_stack *st);
 void	smart_push_back_to_a(t_stack *st);
-void	clac_r_in_a_for_each_b(t_stack *st, int *ra);
-void	prepare_for_min_spin(t_stack *st, int *ra);
-int		direction(int index, int size);
-int		ra_vs_rra(int index, int size_a);
-int		rb_vs_rrb(int index, int size_b);
-void	min_a_vs_min_b(int *ra, int size, int *min_i, int *max_i);
-void	direction_to_spin(t_stack *st, char name, int i);
-int 	is_min(int *arr, int size, int item);
-int 	is_max(int *arr, int size, int item);
+void	clac_r_in_a_for_each_b(t_stack *st, int *ra, int *rb);
+void	calc_rotations(int *ra, int *rb, int size, int *index);
+int		abs(int n);
+void	spin(t_stack *st, int *ra, int *rb, int i);
+void	rr_ra_rb(t_stack *st, int a, int b);
+void	rrr_rra_rrb(t_stack *st, int a, int b);
 int		min_index(int *arr, int size);
+int 	is_min(int *arr, int size, int item);
 int		find_bigger(t_stack *st, int item);
 int		find_smaller(t_stack *st, int item);
-void	spin(t_stack *st, int spin_a, int a_direction, int spin_b, int b_direction);
 void	bring_min_to_top(t_stack *st);
 
 void	merge_sort(int *arr, int start, int end);

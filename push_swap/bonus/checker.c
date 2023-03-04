@@ -3,19 +3,69 @@
 /*                                                        :::      ::::::::   */
 /*   checker.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sv <sv@student.42.fr>                      +#+  +:+       +#+        */
+/*   By: sbocanci <sbocanci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 14:48:21 by sbocanci          #+#    #+#             */
-/*   Updated: 2023/03/03 10:28:23 by sv               ###   ########.fr       */
+/*   Updated: 2023/03/04 17:52:48 by sbocanci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/push_swap.h"
-#include "../includes/get_next_line.h"
+//#include "../includes/push_swap.h"
+#include "../includes/checker.h"
+#include "../includes/libft.h"
 
+// get_stack
+tstack	*get_stack(int size, char **av);
+int	already_exists(int n, tstack *stack);
+int	validate_int(char *elem);
+int		fill_element(tstack *stack, char *arg);
+
+// utils
+void		reverse_array(int *arr, size_t size);
+static void	_swap(int *a, int *b);
+int		atoiv(const char *str, int *n);
+int		is_sorted(tstack *stack);
+
+// get_line instructions
+int			get_instructions(char ***instructions);
+static int	invalid_instruction(char *op);
+static int	heap_set(char ***instructions, char **buffer, int i);
+
+// execution inctructions
+int			execute(char **instructions, tstack *a);
+static void	swap_stacks(char *op, tstack *a, tstack *b);
+static void	push_stacks(char *op, tstack *a, tstack *b);
+static void	rotate_stacks(char *op, tstack *a, tstack *b);
+
+// initialize
+tstack	*initialize(unsigned int size);
+
+// libstack
+void	push(tstack *from, tstack *to);
+void	swap(tstack *stack);
+void	rotate(tstack *stack);
+void	reverse_rotate(tstack *stack);
+
+// free
+void	free_array(void **arr);
+void	free_stack(tstack *stack);
+void	message_and_exit(tstack *stack, char **ops, int status);
+
+/* libft
+void	ft_putchar_fd(const char c, int fd);
+void	ft_putstr_fd(const char *s, int fd);
+void	ft_putendl_fd(char *s, int fd);
+int		ft_isdigit(int c);
+int		ft_isspace(char str);
+void	ft_bzero(void *s, size_t n);
+void	*ft_memset(void *b, int c, size_t len);
+int	ft_streq(const char *s1, const char *s2);
+int		ft_strncmp(const char *s1, const char *s2, size_t n);
+void	*ft_memcpy(void *dst, const void *src, size_t n);
+*/
 int	main(int ac, char **av)
 {
-	t_stack	*st;
+	tstack	*st;
 	int		status;
 	char	**instructions;
 
@@ -35,17 +85,17 @@ int	main(int ac, char **av)
 ** get_stack
 */
 
-t_stack	*get_stack(int size, char **av)
+tstack	*get_stack(int size, char **av)
 {
 	unsigned int	i;
 	int				status;
-	t_stack			*stack;
+	tstack			*stack;
 
 	if (size < 1)
 		exit(0);
 	i = 0;
 	status = 0;
-	stack = initialize(STACK_BUFFER); // ok
+	stack = initialize(1024); // ok
 	while (av[i] && !status)
 		status = fill_element(stack, av[i++]); // ok
 	if (status)
@@ -54,53 +104,53 @@ t_stack	*get_stack(int size, char **av)
 		ft_putendl_fd("Error", STDERR_FILENO); // ok
 		exit(status);
 	}
-	reverse_array(stack->array, stack->top + 1); // ok
+	reverse_array(stack->arr, stack->top + 1); // ok
 	return (stack);
 }
 
-bool	already_exists(int n, t_stack *stack)
+int	already_exists(int n, tstack *stack)
 {
 	int	i;
 
 	i = stack->top;
 	while (i >= 0)
 	{
-		if (stack->array[i] == n)
-			return (true);
+		if (stack->arr[i] == n)
+			return (1);
 		i--;
 	}
-	return (false);
+	return (0);
 }
 
-bool	validate_int(char *elem)
+int	validate_int(char *elem)
 {
-	bool			is_int;
+	int			is_int;
 	unsigned int	i;
 	unsigned int	cm;
 
 	i = 0;
 	cm = 0;
-	is_int = true;
+	is_int = 1;
 	while (elem[i] && is_int)
 	{
 		if (elem[i] == '-' && cm < 1)
 			cm++;
 		else if (!ft_isdigit(elem[i])) // ok
-			is_int = false;
+			is_int = 0;
 		i++;
 	}
 	return (!is_int);
 }
 
 // utils
-void	reverse_array(int *array, size_t size)
+void	reverse_array(int *arr, size_t size)
 {
 	static size_t	i;
 
 	if (i < size)
 	{
-		_swap(&array[i++], &array[size - 1]); // ok
-		reverse_array(array, size - 1); // ok
+		_swap(&arr[i++], &arr[size - 1]); // ok
+		reverse_array(arr, size - 1); // ok
 	}
 	i = 0;
 }
@@ -114,14 +164,14 @@ static void	_swap(int *a, int *b)
 	*a = aux;
 }
 
-bool	atoiv(const char *str, int *n)
+int	atoiv(const char *str, int *n)
 {
 	int		signal;
-	bool	overflow;
+	int	overflow;
 
 	*n = 0;
 	signal = -1;
-	overflow = false;
+	overflow = 0;
 	while (ft_isspace(*str)) // ok
 		str++;
 	if (*str == '+' || *str == '-')
@@ -131,49 +181,49 @@ bool	atoiv(const char *str, int *n)
 	{
 		*n = *n * 10 - (*str++ - '0');
 		if (*n > 0 || (*n == INT_MIN && signal < 0))
-			overflow = true;
+			overflow = 1;
 	}
 	*n *= signal;
 	return (overflow);
 }
 
-bool	is_sorted(t_stack *stack)
+int	is_sorted(tstack *stack)
 {
 	int	i;
 
 	i = -1;
 	while (++i < stack->top)
 	{
-		if (stack->array[i + 1] > stack->array[i])
-			return (false);
+		if (stack->arr[i + 1] > stack->arr[i])
+			return (0);
 	}
-	return (true);
+	return (1);
 }
 // ***
 
-int	fill_element(t_stack *stack, char *arg)
+int	fill_element(tstack *stack, char *arg)
 {
 	unsigned int	j;
 	int				n;
 	int				status;
-	char			**array;
+	char			**arr;
 
 	j = 0;
 	status = 0;
-	array = ft_split(arg, SPACE); // ok
-	while (array[j] && !status)
+	arr = ft_split(arg, ' '); // ok
+	while (arr[j] && !status)
 	{
-		if (validate_int(array[j])) // ok
+		if (validate_int(arr[j])) // ok
 			status = 1;
-		if (atoiv(array[j], &n)) // ok
+		if (atoiv(arr[j], &n)) // ok
 			status = 2;
 		if (already_exists(n, stack)) // ok
 			status = 3;
 		else
-			stack->array[++stack->top] = n;
+			stack->arr[++stack->top] = n;
 		j++;
 	}
-	free_array((void **)array); // ok
+	free_array((void **)arr); // ok
 	return (status);
 }
 
@@ -184,7 +234,7 @@ int	get_instructions(char ***instructions)
 {
 	int		i;
 	int		status;
-	char	*buffer[INSTRUCTIONS_BUFFER_SIZE];
+	char	*buffer[BUF_SIZE_INSTRUCTIONS];
 	char	*op;
 
 	i = 0;
@@ -196,10 +246,10 @@ int	get_instructions(char ***instructions)
 		else
 		{
 			buffer[i++] = op;
-			if (i == INSTRUCTIONS_BUFFER_SIZE)
+			if (i == BUF_SIZE_INSTRUCTIONS)
 			{
 				heap_set(instructions, buffer, i); // ok
-				ft_bzero(buffer, INSTRUCTIONS_BUFFER_SIZE); // ok
+				ft_bzero(buffer, BUF_SIZE_INSTRUCTIONS); // ok
 				i = 0;
 			}
 		}
@@ -209,31 +259,31 @@ int	get_instructions(char ***instructions)
 	return (status);
 }
 
-static bool	invalid_instruction(char *op)
+static int	invalid_instruction(char *op)
 {
 	if (ft_streq(op, "sa")) // ok
-		return (false);
+		return (0);
 	else if (ft_streq(op, "sb"))
-		return (false);
+		return (0);
 	else if (ft_streq(op, "ss"))
-		return (false);
+		return (0);
 	else if (ft_streq(op, "pa"))
-		return (false);
+		return (0);
 	else if (ft_streq(op, "pb"))
-		return (false);
+		return (0);
 	else if (ft_streq(op, "ra"))
-		return (false);
+		return (0);
 	else if (ft_streq(op, "rb"))
-		return (false);
+		return (0);
 	else if (ft_streq(op, "rr"))
-		return (false);
+		return (0);
 	else if (ft_streq(op, "rra"))
-		return (false);
+		return (0);
 	else if (ft_streq(op, "rrb"))
-		return (false);
+		return (0);
 	else if (ft_streq(op, "rrr"))
-		return (false);
-	return (true);
+		return (0);
+	return (1);
 }
 
 static int	heap_set(char ***instructions, char **buffer, int i)
@@ -259,9 +309,9 @@ static int	heap_set(char ***instructions, char **buffer, int i)
 /*
 ** execution inctructions
 */
-int	execute(char **instructions, t_stack *a)
+int	execute(char **instructions, tstack *a)
 {
-	t_stack	*b;
+	tstack	*b;
 
 	b = initialize(a->size); // ok
 	while (*instructions)
@@ -282,7 +332,7 @@ int	execute(char **instructions, t_stack *a)
 	return (0);
 }
 
-static void	swap_stacks(char *op, t_stack *a, t_stack *b)
+static void	swap_stacks(char *op, tstack *a, tstack *b)
 {
 	if (ft_streq(op, "sa") || ft_streq(op, "ss")) // ok
 		swap(a); // ok
@@ -290,7 +340,7 @@ static void	swap_stacks(char *op, t_stack *a, t_stack *b)
 		swap(b);
 }
 
-static void	push_stacks(char *op, t_stack *a, t_stack *b)
+static void	push_stacks(char *op, tstack *a, tstack *b)
 {
 	if (ft_streq(op, "pa"))
 		push(b, a); // ok
@@ -298,7 +348,7 @@ static void	push_stacks(char *op, t_stack *a, t_stack *b)
 		push(a, b);
 }
 
-static void	rotate_stacks(char *op, t_stack *a, t_stack *b)
+static void	rotate_stacks(char *op, tstack *a, tstack *b)
 {
 	if (ft_streq(op, "ra") || ft_streq(op, "rr"))
 		rotate(a); // ok
@@ -313,15 +363,15 @@ static void	rotate_stacks(char *op, t_stack *a, t_stack *b)
 /*
 ** initialize
 */
-t_stack	*initialize(unsigned int size)
+tstack	*initialize(unsigned int size)
 {
-	t_stack	*stack;
+	tstack	*stack;
 
 	stack = malloc(sizeof(*stack));
 	if (!(stack))
 		return (NULL);
-	stack->array = malloc(size * sizeof(*(stack->array)));
-	if (!(stack->array))
+	stack->arr = malloc(size * sizeof(*(stack->arr)));
+	if (!(stack->arr))
 		return (NULL);
 	stack->size = size;
 	stack->top = -1;
@@ -332,68 +382,68 @@ t_stack	*initialize(unsigned int size)
 ** libstack
 */
 
-void	push(t_stack *from, t_stack *to)
+void	push(tstack *from, tstack *to)
 {
 	if (from->top == -1)
 		return ;
-	to->array[++to->top] = from->array[from->top--];
+	to->arr[++to->top] = from->arr[from->top--];
 }
 
-void	swap(t_stack *stack)
+void	swap(tstack *stack)
 {
 	int	aux;
 
 	if (stack->top <= 0)
 		return ;
-	aux = stack->array[stack->top];
-	stack->array[stack->top] = stack->array[stack->top - 1];
-	stack->array[stack->top - 1] = aux;
+	aux = stack->arr[stack->top];
+	stack->arr[stack->top] = stack->arr[stack->top - 1];
+	stack->arr[stack->top - 1] = aux;
 }
 
-void	rotate(t_stack *stack)
+void	rotate(tstack *stack)
 {
 	unsigned int	i;
 	int				tmp;
 
 	i = stack->top + 1;
-	tmp = stack->array[stack->top];
+	tmp = stack->arr[stack->top];
 	while (--i)
-		stack->array[i] = stack->array[i - 1];
-	stack->array[0] = tmp;
+		stack->arr[i] = stack->arr[i - 1];
+	stack->arr[0] = tmp;
 }
 
-void	reverse_rotate(t_stack *stack)
+void	reverse_rotate(tstack *stack)
 {
 	int	i;
 	int	tmp;
 
 	i = -1;
-	tmp = stack->array[0];
+	tmp = stack->arr[0];
 	while (++i < stack->top)
-		stack->array[i] = stack->array[i + 1];
-	stack->array[stack->top] = tmp;
+		stack->arr[i] = stack->arr[i + 1];
+	stack->arr[stack->top] = tmp;
 }
 
 /*
 ** free
 */
-void	free_array(void **array)
+void	free_array(void **arr)
 {
 	size_t	i;
 
 	i = 0;
-	while (array[i])
-		free(array[i++]);
-	free(array);
+	while (arr[i])
+		free(arr[i++]);
+	free(arr);
 }
 
-void	free_stack(t_stack *stack)
+void	free_stack(tstack *stack)
 {
-	free(stack->array);
+	free(stack->arr);
 	free(stack);
 }
 
-void	message_and_exit(t_stack *stack, char **ops, int status)
+void	message_and_exit(tstack *stack, char **ops, int status)
 {
 	if (stack)
 		free_stack(stack);
@@ -405,7 +455,6 @@ void	message_and_exit(t_stack *stack, char **ops, int status)
 
 /*
 ** libft
-*/
 
 void	ft_putchar_fd(const char c, int fd)
 {
@@ -454,7 +503,7 @@ void	*ft_memset(void *b, int c, size_t len)
 	return (b);
 }
 
-bool	ft_streq(const char *s1, const char *s2)
+int	ft_streq(const char *s1, const char *s2)
 {
 	return (!(ft_strncmp(s1, s2, ft_strlen(s2) + 1)));
 }
@@ -479,3 +528,5 @@ void	*ft_memcpy(void *dst, const void *src, size_t n)
 		*d++ = *s++;
 	return (dst);
 }
+
+*/

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   push_swap.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sv <sv@student.42.fr>                      +#+  +:+       +#+        */
+/*   By: sbocanci <sbocanci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 14:48:21 by sbocanci          #+#    #+#             */
-/*   Updated: 2023/03/02 14:25:11 by sv               ###   ########.fr       */
+/*   Updated: 2023/03/04 13:37:34 by sbocanci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,26 +31,17 @@ int	main(int ac, char **av)
 	create_stacks_a_b(st, count);
 	atoi_str_to_stack(str, st, ac);
 	if (!unique_values(st))
-		free_and_quit(st, str, ac, 1); // free stack and str print err
+		free_and_quit(st, str, ac, 1);
 	if (sorted(st))
-		free_and_quit(st, str, ac, 0); // free stack and str
-	if (count > 2000)
-		sort_small_stack(st);
-	else
-	{
-		indexing(st);
-		//print_array(st->a, st->size_a);
-		push_chunks_to_b(st);
-		//calc_and_push_to_b(st);
-		//printf("count: '%d'\n", st->count);
-		smart_push_back_to_a(st);
-		//push_swap_back_to_a(st);
-	}
-	free_and_quit(st, str, ac, 0); // free stack and str
+		free_and_quit(st, str, ac, 0);
+	indexing(st);
+	push_chunks_to_b(st);
+	smart_push_back_to_a(st);
+	free_and_quit(st, str, ac, 0);
 	return (0);
-	//print_array(st->a, st->size_a);
 }
 
+/* treating the input with either split or arr of pointers */
 char	**copy_to_2d_str_arr(int ac, char **av, int *count)
 {
 	char	**str;
@@ -75,6 +66,7 @@ char	**copy_to_2d_str_arr(int ac, char **av, int *count)
 	return (str);
 }
 
+/* check if values in stack a are unique */
 int	unique_values(t_stack *st)
 {
 	int	i;
@@ -120,27 +112,3 @@ void	free_and_quit(t_stack *st, char **str, int ac, int err)
 		free(st->b);
 	exit (0);
 }
-
-/*
-int	valid_argv(int count, char **str)
-{
-	int	i;
-	int	j;
-
-	if (!str || !*str)
-		return (0);
-	i = -1;
-	while (++i < count)
-	{
-		j = -1;
-		while (str[i][++j])
-		{
-			if (j == 0 && (str[i][j] == '-' || str[i][j] == '+'))
-				j++;
-			if ((str[i][j] < '0' || str[i][j] > '9'))
-				return (0);
-		}
-	}
-	return (1);
-}
-*/

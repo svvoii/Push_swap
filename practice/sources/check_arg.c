@@ -68,3 +68,27 @@ int	check_space(char **av)
 	}
 	return (1);
 }
+
+/*
+int	valid_argv(int count, char **str)
+{
+	int	i;
+	int	j;
+
+	if (!str || !*str)
+		return (0);
+	i = -1;
+	while (++i < count)
+	{
+		j = -1;
+		while (str[i][++j])
+		{
+			if (j == 0 && (str[i][j] == '-' || str[i][j] == '+'))
+				j++;
+			if ((str[i][j] < '0' || str[i][j] > '9'))
+				return (0);
+		}
+	}
+	return (1);
+}
+*/

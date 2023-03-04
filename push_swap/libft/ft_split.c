@@ -6,21 +6,11 @@
 /*   By: sbocanci <sbocanci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/21 17:14:35 by sbocanci          #+#    #+#             */
-/*   Updated: 2023/02/15 13:36:45 by sbocanci         ###   ########.fr       */
+/*   Updated: 2023/03/04 17:12:26 by sbocanci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/push_swap.h"
-
-size_t	ft_strlen(const char *str)
-{
-	size_t	i;
-
-	i = 0;
-	while (str[i])
-		i++;
-	return (i);
-}
 
 static void	copy_word(char **spt, char const *s, size_t word, size_t len)
 {

@@ -3,46 +3,47 @@
 /*                                                        :::      ::::::::   */
 /*   push_swap.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sbocanci <sbocanci@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sv <sv@student.42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 13:54:34 by sv                #+#    #+#             */
-/*   Updated: 2023/03/04 17:43:14 by sbocanci         ###   ########.fr       */
+/*   Updated: 2023/03/05 11:54:16 by sv               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PUSH_SWAP_H
 # define PUSH_SWAP_H
 
-# include <stdlib.h>
-# include <unistd.h>
-# include "libft.h"
+//# include <stdlib.h>
+//# include <unistd.h>
+# include "../libft/libft.h"
 
 typedef struct s_stack
 {
-	int	*a;
-	int	*b;
-	int	size_a;
-	int	size_b;
-	int	capacity;
-	int	chunk;
+	char	**input_str;
+	int		*a;
+	int		*b;
+	int		size_a;
+	int		size_b;
+	int		capacity;
+	int		chunk;
 }	t_stack;
 
 /* push_swap.c (main) */
 char	**copy_to_2d_str_arr(int ac, char **av, int *count);
 int		unique_values(t_stack *st);
 int		sorted(t_stack *st);
-void	free_and_quit(t_stack *st, char **str, int ac, int err);
+void	free_and_quit(t_stack *st, int ac, int err);
 /* stack.c */
 t_stack	*create_stacks_a_b(t_stack *st, int capacity);
 void	atoi_str_to_stack(char **str, t_stack *st, int ac);
 long	ft_atoi(char **str, char *s, t_stack *st, int ac);
 void	merge_sort(int *arr, int start, int end);
 /* stack_instructions.c */
-void	push(int item, t_stack *st, char name);
+void	push(int item, t_stack *st, char name, int print);
 void	pop(int *item, t_stack *stack, char name);
-void	swap(t_stack *st, char name);
-void	rotate(t_stack *st, char name);
-void	reverse_rotate(t_stack *st, char name);
+void	swap(t_stack *st, char name, int print);
+void	rotate(t_stack *st, char name, int print);
+void	reverse_rotate(t_stack *st, char name, int print);
 /* sort_psw_00.c */
 void	indexing(t_stack *st);
 void	push_chunks_to_b(t_stack *st);

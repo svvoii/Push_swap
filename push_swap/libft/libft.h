@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sbocanci <sbocanci@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sv <sv@student.42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 15:32:22 by sbocanci          #+#    #+#             */
-/*   Updated: 2023/03/04 17:03:55 by sbocanci         ###   ########.fr       */
+/*   Updated: 2023/03/05 08:08:47 by sv               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int		ft_isdigit(int c);
 int		ft_isspace(int c);
 void	*ft_memcpy(void *dest, const void *src, size_t n);
 int		*ft_memset(void *s, int c, size_t n);
-void	ft_putchar_fd(char c, int fd);
+void	ft_putchar_fd(const char c, int fd);
 void	ft_putendl_fd(char *s, int fd);
 void	ft_putstr_fd(char *s, int fd);
 char	**ft_split(char const *s, char c);

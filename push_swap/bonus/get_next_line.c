@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sbocanci <sbocanci@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sv <sv@student.42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 14:48:21 by sbocanci          #+#    #+#             */
-/*   Updated: 2023/03/04 17:38:33 by sbocanci         ###   ########.fr       */
+/*   Updated: 2023/03/05 11:51:41 by sv               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/get_next_line.h"
+#include "../includes/checker.h"
 
 int			get_next_line(int fd, char **line);
 void		paste_line(char **readed_line, char *buff);
@@ -20,19 +20,19 @@ static void	ft_strdel(char **str);
 
 int	get_next_line(int fd, char **line)
 {
-	static char	*readed_line[OPEN_MAX];
+	static char	*readed_line[64];
 	char		*buff;
 	int			readed;
 
-	if (fd < 0 || line == NULL || BUFFER_SIZE < 1)
+	if (fd < 0 || line == NULL || GNL_BUF_SIZE < 1)
 		return (-1);
-	buff = (char *)malloc((BUFFER_SIZE + 1) * sizeof(char));
+	buff = (char *)malloc((GNL_BUF_SIZE + 1) * sizeof(char));
 	if (!(buff))
 		return (-1);
 	readed = 1;
 	while (readed > 0)
 	{
-		readed = read(fd, buff, BUFFER_SIZE);
+		readed = read(fd, buff, GNL_BUF_SIZE);
 		buff[readed] = '\0';
 		if (!(readed_line[fd]))
 			readed_line[fd] = ft_strdup(buff);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sort_psw_02.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sbocanci <sbocanci@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sv <sv@student.42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 14:48:21 by sbocanci          #+#    #+#             */
-/*   Updated: 2023/03/04 13:42:04 by sbocanci         ###   ########.fr       */
+/*   Updated: 2023/03/05 10:47:55 by sv               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,16 +28,16 @@ void	sort_three_nums(t_stack *st)
 		if (st->a[0] > st->a[1])
 		{
 			if (st->a[1] < st->a[2] && st->a[2] < st->a[0])
-				swap(st, 'a');
+				swap(st, 'a', 1);
 			else
-				rotate(st, 'a');
+				rotate(st, 'a', 1);
 		}
 		else if (st->a[0] < st->a[1])
 		{
 			if (st->a[0] < st->a[2] && st->a[1] > st->a[2]) 
-				reverse_rotate(st, 'a');
+				reverse_rotate(st, 'a', 1);
 			else
-				swap(st, 'a');
+				swap(st, 'a', 1);
 		}
 	}
 }

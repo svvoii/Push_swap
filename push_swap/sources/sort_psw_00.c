@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sort_psw_00.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sbocanci <sbocanci@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sv <sv@student.42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 14:48:21 by sbocanci          #+#    #+#             */
-/*   Updated: 2023/03/04 13:18:03 by sbocanci         ###   ########.fr       */
+/*   Updated: 2023/03/05 10:45:35 by sv               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,18 +56,18 @@ void	push_chunks_to_b(t_stack *st)
 	{
 		top = st->a[st->size_a - 1];
 		if (top > st->chunk * n || top >= st->capacity - 3)
-			rotate(st, 'a');
+			rotate(st, 'a', 1);
 		else if (top <= st->chunk * n)
 		{
 			pop(&item, st, 'a');
-			push(item, st, 'b');
+			push(item, st, 'b', 1);
 			top = st->a[st->size_a - 1];
 			if (st->capacity > 20 && (item < (st->chunk * n) - (st->chunk / 2)))
 			{
 				if (top > st->chunk * n)
-					rotate(st, 'r');
+					rotate(st, 'r', 1);
 				else
-					rotate(st, 'b');
+					rotate(st, 'b', 1);
 			}
 		}
 		n = (st->size_b / st->chunk) + 1;
@@ -90,7 +90,7 @@ void	smart_push_back_to_a(t_stack *st)
 		calc_rotations(ra, rb, st->size_b, &index);
 		spin(st, ra, rb, index);
 		pop(&item, st, 'b');
-		push(item, st, 'a');
+		push(item, st, 'a', 1);
 	}
 	bring_min_to_top(st);
 }

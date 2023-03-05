@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   stack.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sbocanci <sbocanci@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sv <sv@student.42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/01 12:23:11 by sbocanci          #+#    #+#             */
-/*   Updated: 2023/03/04 13:21:16 by sbocanci         ###   ########.fr       */
+/*   Updated: 2023/03/05 11:28:17 by sv               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void	atoi_str_to_stack(char **str, t_stack *st, int ac)
 	{
 		num = ft_atoi(str, str[i], st, ac);
 		if (num > 2147483647 || num < -2147483648)
-			free_and_quit(st, str, ac, 1);
+			free_and_quit(st, ac, 1);
 		st->a[size] = (int)num;
 		size++;
 	}
@@ -84,7 +84,7 @@ long	ft_atoi(char **str, char *s, t_stack *st, int ac)
 		i++;
 	}
 	if (s[i] && (s[i] < '0' || s[i] > '9'))
-		free_and_quit(st, str, ac, 1);/* free stack, str, print err and exit if no digit found */
+		free_and_quit(st, ac, 1);/* free stack, str, print err and exit if no digit found */
 	return (num * sign);
 }
 

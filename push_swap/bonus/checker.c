@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   checker.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sv <sv@student.42.fr>                      +#+  +:+       +#+        */
+/*   By: sbocanci <sbocanci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 14:48:21 by sbocanci          #+#    #+#             */
-/*   Updated: 2023/03/05 11:49:26 by sv               ###   ########.fr       */
+/*   Updated: 2023/03/06 13:47:00 by sbocanci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/checker.h"
 
-int		get_instructions(char ***instructions, int *err);
+void	get_instructions(char ***instructions, int *err);
 int		invalid_instruction(char *operation);
 int		heap_set(char ***instructions, char **buffer, int i);
 void	message_and_exit(t_stack *st, char **ops, int ac, int err);
@@ -30,15 +30,15 @@ int	main(int ac, char **av)
 		exit (0);
 	st->input_str = copy_to_2d_str_arr(ac, av, &count);
 	create_stacks_a_b(st, count);
-	atoi_str_to_stack(st->input_str, st, ac);
-	get_instructions(&instructions, &err);	
+	atoi_str_to_stack(st, ac);
+	get_instructions(&instructions, &err);
 	if (err)
 		message_and_exit(st, instructions, ac, err);
 	execute(st, instructions);
 	message_and_exit(st, instructions, ac, err);
 }
 
-int	get_instructions(char ***instructions, int *err)
+void	get_instructions(char ***instructions, int *err)
 {
 	int		i;
 	char	*buffer[4096];
@@ -102,7 +102,7 @@ int	heap_set(char ***instructions, char **buffer, int i)
 		return (1);
 	if (in_size)
 	{
-		ft_memcpy(tmp, *instructions, in_size * sizeof(*tmp)); // ok
+		ft_memcpy(tmp, *instructions, in_size * sizeof(*tmp));
 		free(*instructions);
 	}
 	ft_memcpy(tmp + in_size, buffer, i * sizeof(*tmp));

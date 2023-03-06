@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sort_psw_02.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sv <sv@student.42.fr>                      +#+  +:+       +#+        */
+/*   By: sbocanci <sbocanci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 14:48:21 by sbocanci          #+#    #+#             */
-/*   Updated: 2023/03/05 10:47:55 by sv               ###   ########.fr       */
+/*   Updated: 2023/03/06 12:33:41 by sbocanci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	sort_three_nums(t_stack *st);
 int		min_index(int *arr, int size);
-int 	is_min(int *arr, int size, int item);
+int		is_min(int *arr, int size, int item);
 int		find_bigger(t_stack *st, int item);
 int		find_smaller(t_stack *st, int item);
 
@@ -34,7 +34,7 @@ void	sort_three_nums(t_stack *st)
 		}
 		else if (st->a[0] < st->a[1])
 		{
-			if (st->a[0] < st->a[2] && st->a[1] > st->a[2]) 
+			if (st->a[0] < st->a[2] && st->a[1] > st->a[2])
 				reverse_rotate(st, 'a', 1);
 			else
 				swap(st, 'a', 1);
@@ -52,7 +52,7 @@ int	min_index(int *arr, int size)
 	return (i);
 }
 
-int is_min(int *arr, int size, int item)
+int	is_min(int *arr, int size, int item)
 {
 	int	i;
 

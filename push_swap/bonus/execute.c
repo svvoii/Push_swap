@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sv <sv@student.42.fr>                      +#+  +:+       +#+        */
+/*   By: sbocanci <sbocanci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 15:47:53 by sbocanci          #+#    #+#             */
-/*   Updated: 2023/03/05 11:45:31 by sv               ###   ########.fr       */
+/*   Updated: 2023/03/06 13:48:29 by sbocanci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,9 @@ int	execute(t_stack *st, char **instructions)
 void	swap_stacks(t_stack *st, char *operation)
 {
 	if (ft_streq(operation, "sa") || ft_streq(operation, "ss"))
-	 	swap(st, 'a', 0);
+		swap(st, 'a', 0);
 	if (ft_streq(operation, "sb") || ft_streq(operation, "ss"))
-	 	swap(st, 'b', 0);
+		swap(st, 'b', 0);
 }
 
 void	push_stacks(t_stack *st, char *op)
@@ -63,15 +63,15 @@ void	push_stacks(t_stack *st, char *op)
 void	rotate_stacks(t_stack *st, char *op)
 {
 	if (ft_streq(op, "ra"))
-	 	rotate(st, 'a', 0);
+		rotate(st, 'a', 0);
 	if (ft_streq(op, "rb"))
-	 	rotate(st, 'b', 0);
+		rotate(st, 'b', 0);
 	if (ft_streq(op, "rr"))
-	 	rotate(st, 'r', 0);
+		rotate(st, 'r', 0);
 	if (ft_streq(op, "rra"))
-	 	reverse_rotate(st, 'a', 0);
+		reverse_rotate(st, 'a', 0);
 	if (ft_streq(op, "rrb"))
-	 	reverse_rotate(st, 'b', 0);
+		reverse_rotate(st, 'b', 0);
 	if (ft_streq(op, "rrr"))
-	 	reverse_rotate(st, 'r', 0);
+		reverse_rotate(st, 'r', 0);
 }

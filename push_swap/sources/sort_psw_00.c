@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sort_psw_00.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sv <sv@student.42.fr>                      +#+  +:+       +#+        */
+/*   By: sbocanci <sbocanci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 14:48:21 by sbocanci          #+#    #+#             */
-/*   Updated: 2023/03/05 10:45:35 by sv               ###   ########.fr       */
+/*   Updated: 2023/03/06 13:40:48 by sbocanci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,16 @@ void	indexing(t_stack *st);
 void	push_chunks_to_b(t_stack *st);
 void	smart_push_back_to_a(t_stack *st);
 void	clac_r_in_a_for_each_b(t_stack *st, int *ra, int *rb);
-void	calc_rotations(int *ra, int *rb, int size, int *index);
+void	calc_rotations(int *ra, int *rb, int *rotations, int size);
 
 /* sort into temp buf arr and use it to index unsorted stack */
 void	indexing(t_stack *st)
 {
 	int	i;
 	int	j;
-	int	buf[st->size_a];
+	int	*buf;
 
+	buf = (int *)malloc(sizeof(int) * st->capacity);
 	i = -1;
 	while (++i < st->size_a)
 		buf[i] = st->a[i];
@@ -42,6 +43,7 @@ void	indexing(t_stack *st)
 			}
 		}
 	}
+	free(buf);
 }
 
 /* pushing nums from a to b based on chunk devision */
@@ -74,25 +76,34 @@ void	push_chunks_to_b(t_stack *st)
 	}
 }
 
-/* the following functions + those from psw_01-02 idetify the least ammount of instr */
+/* following functions + those from psw_01-02 idetify least ammount of instr */
 void	smart_push_back_to_a(t_stack *st)
 {
 	int	item;
 	int	index;
-	int	ra[st->capacity];
-	int	rb[st->capacity];
+	int	*ra;
+	int	*rb;
+	int	*rotations;
 
+	ra = (int *)malloc(sizeof(int) * st->capacity);
+	rb = (int *)malloc(sizeof(int) * st->capacity);
+	rotations = (int *)malloc(sizeof(int) * st->capacity);
 	sort_three_nums(st);
 	while (st->size_b)
 	{
 		clac_r_in_a_for_each_b(st, ra, rb);
+		calc_rotations(ra, rb, rotations, st->size_b);
 		index = 0;
-		calc_rotations(ra, rb, st->size_b, &index);
+		while (!is_min(rotations, st->size_b, rotations[index]))
+			index++;
 		spin(st, ra, rb, index);
 		pop(&item, st, 'b');
 		push(item, st, 'a', 1);
 	}
 	bring_min_to_top(st);
+	free(ra);
+	free(rb);
+	free(rotations);
 }
 
 void	clac_r_in_a_for_each_b(t_stack *st, int *ra, int *rb)
@@ -122,31 +133,28 @@ void	clac_r_in_a_for_each_b(t_stack *st, int *ra, int *rb)
 	}
 }
 
-void	calc_rotations(int *ra, int *rb, int size, int *index)
+void	calc_rotations(int *ra, int *rb, int *rotations, int size)
 {
-	int i;
-	int	rotations[size];
+	int	i;
 
 	i = -1;
 	while (++i < size)
 	{
-		if (ra[i] >= 0 && rb[i] >= 0)/* both ra rb are (+) */
+		if (ra[i] >= 0 && rb[i] >= 0)
 		{
 			if (ra[i] >= rb[i])
 				rotations[i] = ra[i];
 			else
 				rotations[i] = rb[i];
 		}
-		else if (ra[i] < 0 && rb[i] < 0)/* both ra rb are (-) */
+		else if (ra[i] < 0 && rb[i] < 0)
 		{
 			if (ra[i] <= rb[i])
 				rotations[i] = abs(ra[i]);
 			else
 				rotations[i] = abs(rb[i]);
 		}
-		else/* ra (+/-) .. rb (+/-) */
+		else
 			rotations[i] = abs(ra[i]) + abs(rb[i]);
 	}
-	while (!is_min(rotations, size, rotations[*index]))
-		*index += 1;
 }

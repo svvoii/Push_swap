@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   stack_instructions.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sv <sv@student.42.fr>                      +#+  +:+       +#+        */
+/*   By: sbocanci <sbocanci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/01 15:41:24 by sbocanci          #+#    #+#             */
-/*   Updated: 2023/03/05 10:42:53 by sv               ###   ########.fr       */
+/*   Updated: 2023/03/06 12:56:18 by sbocanci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	push(int item, t_stack *st, char name, int print)
 {
 	if ((name == 'a' && st->size_a == st->capacity)
 		|| (name == 'b' && st->size_b == st->capacity))
-		return;
+		return ;
 	if (name == 'a')
 	{
 		st->a[st->size_a] = item;
@@ -35,7 +35,7 @@ void	push(int item, t_stack *st, char name, int print)
 		st->size_b++;
 	}
 	if (print)
-		printf("p%c\n", name);
+		print_instruction("p", name);
 }
 
 /* Decreases the size ofthe array by 1 */
@@ -44,14 +44,14 @@ void	pop(int *item, t_stack *st, char name)
 	if (name == 'a')
 	{
 		if (!st->size_a)
-			return;
+			return ;
 		st->size_a--;
 		*item = st->a[st->size_a];
 	}
 	else if (name == 'b')
 	{
 		if (!st->size_a)
-			return;
+			return ;
 		st->size_b--;
 		*item = st->b[st->size_b];
 	}
@@ -78,7 +78,7 @@ void	swap(t_stack *st, char name, int print)
 		st->b[top - 1] = tmp;
 	}
 	if (print)
-		printf("s%c\n", name);
+		print_instruction("s", name);
 }
 
 /* Moves the top item to bottom of stack (the last array item put at index 0) */
@@ -104,10 +104,10 @@ void	rotate(t_stack *st, char name, int print)
 		st->b[0] = tmp;
 	}
 	if (print)
-		printf("r%c\n", name);
+		print_instruction("r", name);
 }
 
-/* The bottom stack value moved to the top (last array item appears at 0 index) */
+/* Bottom stack value moved to the top (last array item appears at 0 index) */
 void	reverse_rotate(t_stack *st, char name, int print)
 {
 	int	i;
@@ -130,7 +130,7 @@ void	reverse_rotate(t_stack *st, char name, int print)
 		st->b[st->size_b - 1] = tmp;
 	}
 	if (print)
-		printf("rr%c\n", name);
+		print_instruction("rr", name);
 }
 
 /* Returns 1 (true) if the stack is empty.

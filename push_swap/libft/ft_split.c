@@ -6,11 +6,11 @@
 /*   By: sbocanci <sbocanci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/21 17:14:35 by sbocanci          #+#    #+#             */
-/*   Updated: 2023/03/04 17:12:26 by sbocanci         ###   ########.fr       */
+/*   Updated: 2023/03/06 14:19:37 by sbocanci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/push_swap.h"
+#include "../includes/libft.h"
 
 static void	copy_word(char **spt, char const *s, size_t word, size_t len)
 {

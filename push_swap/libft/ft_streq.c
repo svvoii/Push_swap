@@ -6,11 +6,11 @@
 /*   By: sbocanci <sbocanci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/07 14:29:45 by sbocanci          #+#    #+#             */
-/*   Updated: 2023/03/04 16:46:59 by sbocanci         ###   ########.fr       */
+/*   Updated: 2023/03/06 14:20:16 by sbocanci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../includes/libft.h"
 
 int	ft_streq(const char *s1, const char *s2)
 {

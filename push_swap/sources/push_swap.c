@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   push_swap.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sv <sv@student.42.fr>                      +#+  +:+       +#+        */
+/*   By: sbocanci <sbocanci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 14:48:21 by sbocanci          #+#    #+#             */
-/*   Updated: 2023/03/05 11:39:30 by sv               ###   ########.fr       */
+/*   Updated: 2023/03/06 11:47:47 by sbocanci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ char	**copy_to_2d_str_arr(int ac, char **av, int *count);
 int		unique_values(t_stack *st);
 int		sorted(t_stack *st);
 void	free_and_quit(t_stack *st, int ac, int err);
+void	print_instruction(char *s1, char s2);
 
 /* treating the input with either split or arr of pointers */
 char	**copy_to_2d_str_arr(int ac, char **av, int *count)
@@ -87,4 +88,11 @@ void	free_and_quit(t_stack *st, int ac, int err)
 	if (st->b)
 		free(st->b);
 	exit (err);
+}
+
+void	print_instruction(char *s1, char s2)
+{
+	ft_putstr_fd(s1, 1);
+	ft_putchar_fd(s2, 1);
+	ft_putchar_fd('\n', 1);
 }

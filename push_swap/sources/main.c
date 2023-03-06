@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sv <sv@student.42.fr>                      +#+  +:+       +#+        */
+/*   By: sbocanci <sbocanci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 14:48:21 by sbocanci          #+#    #+#             */
-/*   Updated: 2023/03/05 11:31:33 by sv               ###   ########.fr       */
+/*   Updated: 2023/03/06 11:28:23 by sbocanci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	main(int ac, char **av)
 		exit (0);
 	st->input_str = copy_to_2d_str_arr(ac, av, &count);
 	create_stacks_a_b(st, count);
-	atoi_str_to_stack(st->input_str, st, ac);
+	atoi_str_to_stack(st, ac);
 	if (!unique_values(st))
 		free_and_quit(st, ac, 1);
 	if (sorted(st))

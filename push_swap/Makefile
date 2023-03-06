@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: sv <sv@student.42.fr>                      +#+  +:+       +#+         #
+#    By: sbocanci <sbocanci@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/17 17:40:09 by sbocanci          #+#    #+#              #
-#    Updated: 2023/03/05 08:20:14 by sv               ###   ########.fr        #
+#    Updated: 2023/03/06 14:27:27 by sbocanci         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,35 +16,35 @@ NAME_B = checker
 
 #LIBFT_DIR=./libft
 #LIBFT=$(LIBFT_DIR)/libft.a
+libft = libft/ft_bzero.c libft/ft_putchar_fd.c libft/ft_split.c\
+	libft/ft_strdup.c libft/ft_strjoin.c libft/ft_strncmp.c libft/ft_memcpy.c\
+	libft/ft_putstr_fd.c libft/ft_strchr.c libft/ft_streq.c libft/ft_strlen.c\
+	libft/ft_substr.c
 
-src = sources/push_swap.c sources/stack.c sources/stack_instructions.c sources/sort_psw_00.c sources/sort_psw_01.c sources/sort_psw_02.c sources/ft_split.c
+src = sources/main.c sources/push_swap.c sources/stack.c sources/stack_instructions.c\
+	sources/sort_psw_00.c sources/sort_psw_01.c sources/sort_psw_02.c
 
-#src_b = sources/checker.c sources/gnl_01.c sources/gnl_02.c sources/ft_split.c
-#src_b = bonus/checker.c bonus/get_next_line.c bonus/sort_fct_bonus.c\
-		bonus/sort_fct_rbonus.c bonus/utils_bonus.c bonus/util_2.c\
-		bonus/utils_3.c
+src_b = bonus/checker.c bonus/execute.c bonus/get_next_line.c\
+	sources/push_swap.c sources/stack.c sources/stack_instructions.c
+
+lib_obj = $(libft:.c=.o)
 
 obj = $(src:.c=.o)
 
-#obj_b = $(src_b:.c=.o)
-#obj_b = $(src_b:.c=.o)
+obj_b = $(src_b:.c=.o)
 
 flags = -Wall -Wextra -Werror
 
 all: $(NAME)
 
-$(NAME): $(src) $(obj) includes/push_swap.h #$(LIBFT)
-	@gcc $(flags) $(src) -o $(NAME)
+$(NAME): $(src) $(obj) $(lib_obj) includes/push_swap.h includes/libft.h
+	@gcc $(flags) $(src) $(libft) -o $(NAME)
 	@echo ------Compiled Mondatory part-------
-
-#$(LIBFT):
-#	make -C $(LIBFT_DIR)
-#	cp $(LIBFT) $(NAME)
 
 bonus: $(NAME_B)
 
-$(NAME_B): $(src_b) $(obj_b) includes/checker.h includes/get_next_line.h
-	@gcc $(flags) $(src_b) -o $(NAME_B)
+$(NAME_B): $(src_b) $(obj_b) $(lib_obj) includes/checker.h includes/libft.h
+	@gcc $(flags) $(src_b) $(libft) -o $(NAME_B)
 	@echo ------Compiled Bonus part-------
 
 %.o: %.c
@@ -52,7 +52,7 @@ $(NAME_B): $(src_b) $(obj_b) includes/checker.h includes/get_next_line.h
 	@echo ------Compiling Objects files-------
 
 clean:
-	@rm -rf $(obj) $(obj_b)
+	@rm -rf $(obj) $(obj_b) $(lib_obj)
 	@echo ------Deleting Objects Files-------
 
 fclean: clean

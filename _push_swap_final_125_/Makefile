@@ -6,7 +6,7 @@
 #    By: sbocanci <sbocanci@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/17 17:40:09 by sbocanci          #+#    #+#              #
-#    Updated: 2023/03/06 14:27:27 by sbocanci         ###   ########.fr        #
+#    Updated: 2023/03/06 15:08:47 by sbocanci         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,8 +14,6 @@ NAME = push_swap
 
 NAME_B = checker
 
-#LIBFT_DIR=./libft
-#LIBFT=$(LIBFT_DIR)/libft.a
 libft = libft/ft_bzero.c libft/ft_putchar_fd.c libft/ft_split.c\
 	libft/ft_strdup.c libft/ft_strjoin.c libft/ft_strncmp.c libft/ft_memcpy.c\
 	libft/ft_putstr_fd.c libft/ft_strchr.c libft/ft_streq.c libft/ft_strlen.c\
